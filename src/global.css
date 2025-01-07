@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600&display=swap");
+@font-face {
+  font-family: "Pretendard";
+  src: url("/public/Pretendard-Light.otf");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("/public/Pretendard-Regular.otf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("/public/Pretendard-Regular.otf");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Pretendard";
+  src: url("/public/Pretendard-SemiBold.otf");
+  font-weight: 600;
+}
+
+body {
+  margin: 0;
+  line-height: normal;
+}
+:root {
+  /* fonts */
+  --font-pretendard: Pretendard;
+
+  /* font sizes */
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --font-size-5xl: 24px;
+  --font-size-22xl: 41px;
+  --font-size-3xl: 22px;
+  --font-size-9xl: 28px;
+  --font-size-31xl: 50px;
+
+  /* Colors */
+  --color-lightskyblue: #8cb7e5;
+  --color-gainsboro: #d9d9d9;
+  --color-lightsteelblue-100: #a8caec;
+  --color-lightsteelblue-200: #b7bccc;
+  --color-white: #fff;
+  --color-darkslategray: #435364;
+  --color-whitesmoke: #f8fafc;
+  --color-silver: #b8bbb7;
+  --color-lightslategray: #83909a;
+
+  /* Border radiuses */
+  --br-50xl: 69px;
+  --br-xl: 20px;
+}

@@ -1,0 +1,192 @@
+.child,
+.icon {
+  position: absolute;
+}
+.child {
+  top: 0;
+  left: 0;
+  background-color: var(--color-lightskyblue);
+  width: 1920px;
+  height: 110px;
+}
+.icon {
+  object-fit: cover;
+}
+.div1,
+.icon {
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 110px;
+}
+.div1,
+.div3,
+.item {
+  position: absolute;
+}
+.item {
+  top: 0;
+  left: 0;
+  background-color: var(--color-white);
+  border: 1.9px solid var(--color-lightsteelblue-200);
+  box-sizing: border-box;
+  width: 815px;
+  height: 59px;
+}
+.div3 {
+  top: 17px;
+  left: 27px;
+  font-weight: 300;
+}
+.div2,
+.div4,
+.rectangleIcon {
+  position: absolute;
+  top: 625px;
+  left: 552px;
+  width: 815px;
+  height: 59px;
+}
+.div4,
+.rectangleIcon {
+  top: 682px;
+}
+.rectangleIcon {
+  top: 0;
+  left: 0;
+}
+.div7 {
+  position: absolute;
+  top: 16px;
+  left: 27px;
+  font-weight: 300;
+}
+.div6 {
+  top: 739px;
+  left: 552px;
+  width: 815px;
+  height: 59px;
+}
+.child1,
+.div10,
+.div6 {
+  position: absolute;
+}
+.child1 {
+  top: 0;
+  left: 0;
+  width: 815px;
+  height: 118px;
+}
+.div10 {
+  top: 74px;
+  left: 27px;
+  font-weight: 300;
+}
+.div8,
+.icon1,
+.icon2 {
+  position: absolute;
+  top: 842px;
+  left: 552px;
+  width: 815px;
+  height: 118px;
+}
+.icon1,
+.icon2 {
+  top: 310px;
+  left: 809px;
+  width: 302px;
+  height: 290px;
+}
+.icon2 {
+  top: 498px;
+  left: 1021px;
+  width: 50px;
+  height: 50px;
+}
+.rectangleDiv {
+  top: 0;
+  left: 0;
+  background-color: var(--color-darkslategray);
+  width: 117px;
+  height: 52px;
+}
+.div11,
+.div12,
+.rectangleDiv {
+  position: absolute;
+}
+.div12 {
+  top: 13px;
+  left: 20px;
+  font-weight: 300;
+}
+.div11 {
+  top: 1025px;
+  left: 901px;
+  width: 117px;
+  height: 52px;
+  color: var(--color-white);
+}
+.node {
+  white-space: pre-wrap;
+}
+.span {
+  text-decoration: underline;
+}
+.child2,
+.div14 {
+  position: absolute;
+}
+.div14 {
+  top: 0;
+  left: 0;
+  font-weight: 300;
+}
+.child2 {
+  top: 4px;
+  left: 185px;
+  width: 64px;
+  height: 30px;
+  cursor: pointer;
+}
+.div13 {
+  top: 1144px;
+  left: 835px;
+  width: 249px;
+  height: 34px;
+  color: var(--color-silver);
+}
+.child3,
+.div13,
+.div15 {
+  position: absolute;
+}
+.div15 {
+  top: 190px;
+  left: 873px;
+  font-size: var(--font-size-31xl);
+  font-weight: 500;
+  color: var(--color-darkslategray);
+}
+.child3 {
+  top: 18px;
+  left: 790px;
+  background-color: var(--color-gainsboro);
+  width: 339px;
+  height: 66px;
+  opacity: 0;
+  cursor: pointer;
+}
+.div {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-whitesmoke);
+  height: 1200px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-3xl);
+  color: var(--color-lightslategray);
+  font-family: var(--font-pretendard);
+}

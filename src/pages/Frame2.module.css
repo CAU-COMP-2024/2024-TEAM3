@@ -1,0 +1,162 @@
+.child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-lightskyblue);
+  width: 1920px;
+  height: 110px;
+}
+.icon {
+  object-fit: cover;
+}
+.div1,
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 110px;
+}
+.item {
+  top: 0;
+  left: 0;
+  border-radius: 30px;
+  background-color: var(--color-white);
+  border: 1.9px solid var(--color-lightsteelblue-200);
+  box-sizing: border-box;
+  width: 815px;
+  height: 493px;
+}
+.div2,
+.inner,
+.item {
+  position: absolute;
+}
+.inner {
+  top: 292px;
+  left: 10px;
+  max-height: 100%;
+  width: 796px;
+}
+.div2 {
+  top: 272px;
+  left: 552px;
+  width: 815px;
+  height: 493px;
+}
+.lineIcon,
+.rectangleDiv {
+  position: absolute;
+  left: 0;
+  width: 673px;
+}
+.rectangleDiv {
+  top: 0;
+  border-radius: var(--br-xl);
+  background-color: var(--color-white);
+  border: 1.9px solid var(--color-lightsteelblue-200);
+  box-sizing: border-box;
+  height: 179px;
+}
+.lineIcon {
+  top: 89px;
+  max-height: 100%;
+}
+.div4,
+.div5 {
+  position: absolute;
+  top: 30px;
+  left: 38px;
+}
+.div5 {
+  top: 115px;
+}
+.div3 {
+  top: 326px;
+  left: 623px;
+  width: 673px;
+  height: 179px;
+}
+.child1,
+.div3,
+.div7 {
+  position: absolute;
+}
+.child1 {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-xl);
+  background-color: var(--color-darkslategray);
+  width: 673px;
+  height: 76px;
+}
+.div7 {
+  top: 21px;
+  left: 305px;
+  font-weight: 500;
+}
+.div6 {
+  top: 623px;
+  left: 618px;
+  width: 673px;
+  height: 76px;
+  color: var(--color-white);
+}
+.child2,
+.div6,
+.div9 {
+  position: absolute;
+}
+.div9 {
+  top: 1px;
+  left: 1px;
+  font-weight: 300;
+  white-space: pre-wrap;
+}
+.child2 {
+  top: 0;
+  left: 0;
+  width: 82px;
+  height: 28px;
+  cursor: pointer;
+}
+.child3 {
+  top: 1px;
+  left: 266px;
+  width: 124px;
+  height: 27px;
+  cursor: pointer;
+}
+.child3,
+.child4,
+.div8 {
+  position: absolute;
+}
+.div8 {
+  top: 798px;
+  left: 764px;
+  width: 390px;
+  height: 28px;
+  font-size: var(--font-size-3xl);
+  color: var(--color-silver);
+}
+.child4 {
+  top: 18px;
+  left: 790px;
+  background-color: var(--color-gainsboro);
+  width: 339px;
+  height: 66px;
+  opacity: 0;
+  cursor: pointer;
+}
+.div {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-whitesmoke);
+  height: 1200px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-9xl);
+  color: var(--color-lightslategray);
+  font-family: var(--font-pretendard);
+}
