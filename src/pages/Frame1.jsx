@@ -1,58 +1,101 @@
-import { useCallback } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styles from "./Frame1.module.css";
 
 const Frame1 = () => {
   const navigate = useNavigate();
 
-  const onRectangleClick = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
+  // 폼 데이터 상태 관리
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    nickname: "",
+  });
 
-  const onRectangleClick1 = useCallback(() => {
-    navigate("/4");
-  }, [navigate]);
+  // 입력 변경 핸들러
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // 폼 제출 핸들러
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // 비밀번호 확인
+    if (formData.password !== formData.confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    // 백엔드로 데이터 전송
+    try {
+      const response = await axios.post("http://localhost:3001/register", {
+        email: formData.email,
+        password: formData.password,
+        nickname: formData.nickname,
+      });
+      alert(response.data); // 백엔드 응답 메시지 표시
+      navigate("/"); // 회원가입 후 메인 페이지로 이동
+    } catch (error) {
+      console.error(error);
+      alert("회원가입 실패!");
+    }
+  };
 
   return (
-    <div className={styles.div}>
-      <div className={styles.div1}>
-        <div className={styles.child} />
-        <img className={styles.icon} alt="" src="/-1-1@2x.png" />
+    <div className={styles.formContainer}>
+      <h2 className={styles.title}>회원가입</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+      <input
+          type="email"
+          name="email"
+          placeholder="이메일"
+          value={formData.email}
+          onChange={handleChange}
+          className={styles.inputField}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="비밀번호"
+          value={formData.password}
+          onChange={handleChange}
+          className={styles.inputField}
+          required
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="비밀번호 확인"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          className={styles.inputField}
+          required
+        />
+        <input
+          type="text"
+          name="nickname"
+          placeholder="닉네임"
+          value={formData.nickname}
+          onChange={handleChange}
+          className={styles.inputField}
+          required
+        />
+        <button type="submit" className={styles.submitButton}>
+          가입하기
+        </button>
+      </form>
+      <div className={styles.loginRedirect}>
+        이미 회원이라면? <span className={styles.loginLink} onClick={() => navigate("/")}>로그인</span>
       </div>
-      <div className={styles.div2}>
-        <div className={styles.item} />
-        <div className={styles.div3}>{`아이디 `}</div>
-      </div>
-      <div className={styles.div4}>
-        <div className={styles.item} />
-        <div className={styles.div3}>비밀번호</div>
-      </div>
-      <div className={styles.div6}>
-        <img className={styles.rectangleIcon} alt="" src="/rectangle-8.svg" />
-        <div className={styles.div7}>비밀번호 확인</div>
-      </div>
-      <div className={styles.div8}>
-        <img className={styles.child1} alt="" src="/rectangle-9.svg" />
-        <div className={styles.div3}>이메일</div>
-        <div className={styles.div10}>닉네임</div>
-      </div>
-      <img className={styles.icon1} alt="" src="/3.svg" />
-      <img className={styles.icon2} alt="" src="/31.svg" />
-      <div className={styles.div11}>
-        <div className={styles.rectangleDiv} />
-        <div className={styles.div12}>가입하기</div>
-      </div>
-      <div className={styles.div13}>
-        <div className={styles.div14}>
-          {`이미 회원이라면?        `}
-          <span className={styles.span}>로그인</span>
-        </div>
-        <div className={styles.child2} onClick={onRectangleClick} />
-      </div>
-      <div className={styles.div15}>회원가입</div>
-      <div className={styles.child3} onClick={onRectangleClick1} />
     </div>
   );
 };
 
 export default Frame1;
+
+

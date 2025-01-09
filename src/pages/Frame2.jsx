@@ -30,7 +30,7 @@ const Frame2 = () => {
       <div className={styles.div3}>
         <div className={styles.rectangleDiv} />
         <img className={styles.lineIcon} alt="" src="/line-3.svg" />
-        <div className={styles.div4}>아이디</div>
+        <div className={styles.div4}>이메일</div>
         <div className={styles.div5}>비밀번호</div>
       </div>
       <div className={styles.div6}>
