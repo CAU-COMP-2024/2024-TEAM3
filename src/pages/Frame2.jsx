@@ -52,6 +52,7 @@
 // export default Frame2;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // axios를 사용하여 백엔드와 통신
 import styles from "./Frame2.module.css";
 
 const Frame2 = () => {
@@ -62,6 +63,8 @@ const Frame2 = () => {
     user_id: "",
     password: "",
   });
+  // 상태 관리: 에러 메시지
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 입력값 변경 핸들러
   const handleChange = (e) => {
@@ -70,12 +73,23 @@ const Frame2 = () => {
   };
 
   // 로그인 제출 핸들러
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("로그인 요청:", formData);
+    try {
+      // 백엔드에 로그인 요청
+      const response = await axios.post("http://localhost:3001/login", formData);
 
-    // 로그인 성공 시 /home으로 이동
-    navigate("/home", { state: { user_id: formData.user_id } });
+      // 로그인 성공 시 메인 페이지로 이동
+      if (response.data.success) {
+        navigate("/home", { state: { user_id: formData.user_id } });
+      } else {
+        // 로그인 실패 시 에러 메시지 설정
+      setErrorMessage(response.data.message || "아이디 또는 비밀번호가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      console.error("로그인 요청 중 에러 발생:", error);
+      setErrorMessage("서버 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (

@@ -71,7 +71,27 @@ app.post('/find-password', (req, res) => {
         res.status(200).json({ password: result[0].password }); // 비밀번호를 JSON 형태로 반환
     });
 });
-
+// 로그인 엔드포인트
+app.post("/login", (req, res) => {
+    const { user_id, password } = req.body;
+  
+    // 데이터베이스에서 사용자 정보 확인
+    const sql = "SELECT * FROM users WHERE user_id = ? AND password = ?";
+    db.query(sql, [user_id, password], (err, result) => {
+      if (err) {
+        console.error("데이터베이스 에러:", err);
+        return res.status(500).json({ success: false, message: "서버 에러" });
+      }
+  
+      if (result.length > 0) {
+        // 로그인 성공
+        res.json({ success: true });
+      } else {
+        // 로그인 실패
+        res.json({ success: false, message: "아이디 또는 비밀번호 불일치" });
+      }
+    });
+  });
 // 서버 실행
 app.listen(3001, () => {
     console.log('Server running on http://localhost:3001');

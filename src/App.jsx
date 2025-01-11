@@ -8,6 +8,7 @@ import {
 import Frame1 from "./pages/Frame1";
 import Frame from "./pages/Frame";
 import Frame2 from "./pages/Frame2";
+import Home from "./pages/Home"; // 메인 페이지
 
 function App() {
   const action = useNavigationType();
@@ -26,17 +27,24 @@ function App() {
 
     switch (pathname) {
       case "/":
-        title = "";
-        metaDescription = "";
+        title = "로그인";
+        metaDescription = "로그인 페이지입니다.";
+        break;
+      case "/2":
+        title = "회원가입";
+        metaDescription = "회원가입 페이지입니다.";
         break;
       case "/3":
-        title = "";
-        metaDescription = "";
+        title = "비밀번호 찾기";
+        metaDescription = "비밀번호 찾기 페이지입니다.";
         break;
-      case "/":
-        title = "";
-        metaDescription = "";
-        break;
+      case "/home":
+        title = "메인 페이지";
+        metaDescription = "메인 페이지입니다.";
+      break;
+      default:
+        title = "ALL HERE";
+        metaDescription = "ALL HERE에 오신 것을 환영합니다.";
     }
 
     if (title) {
@@ -58,6 +66,7 @@ function App() {
       <Route path="/2" element={<Frame1 />} />
       <Route path="/3" element={<Frame />} />
       <Route path="/" element={<Frame2 />} />
+      <Route path="/home" element={<Home />} />
     </Routes>
   );
 }
