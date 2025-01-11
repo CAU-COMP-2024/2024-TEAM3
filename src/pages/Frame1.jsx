@@ -8,7 +8,7 @@ const Frame1 = () => {
 
   // 폼 데이터 상태 관리
   const [formData, setFormData] = useState({
-    email: "",
+    user_id: "",
     password: "",
     confirmPassword: "",
     nickname: "",
@@ -33,7 +33,7 @@ const Frame1 = () => {
     // 백엔드로 데이터 전송
     try {
       const response = await axios.post("http://localhost:3001/register", {
-        email: formData.email,
+        user_id: formData.user_id,
         password: formData.password,
         nickname: formData.nickname,
       });
@@ -49,11 +49,11 @@ const Frame1 = () => {
     <div className={styles.formContainer}>
       <h2 className={styles.title}>회원가입</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
-      <input
-          type="email"
-          name="email"
-          placeholder="이메일"
-          value={formData.email}
+        <input
+          type="text"
+          name="user_id"
+          placeholder="아이디"
+          value={formData.user_id}
           onChange={handleChange}
           className={styles.inputField}
           required
