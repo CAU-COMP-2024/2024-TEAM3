@@ -1,14 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./Personal.module.css"; // 새 CSS 파일 필요
+import TeamMenu from "../components/TeamMenu"; // TeamMenu 컴포넌트 임포트
+import styles from "./Personal.module.css"; // 기존 CSS 사용
 
-const Personal = () => {
+const Team = () => {
   return (
     <div className={styles.container}>
       {/* 좌측 네비게이션 바 */}
       <aside className={styles.sidebar}>
         <div className={styles.logo}>ALL HERE</div>
         <nav className={styles.nav}>
+          {/* 개인용 섹션 */}
           <div className={styles.section}>
             <h3>개인용</h3>
             <ul>
@@ -21,15 +23,11 @@ const Personal = () => {
               <li className={styles.subItem}>과제3</li>
             </ul>
           </div>
+
+          {/* 팀플용 섹션 */}
           <div className={styles.section}>
             <h3>팀플용</h3>
-            <ul>
-              <li>프로젝트 1</li>
-              <li className={styles.subItem}>역할 분담</li>
-              <li className={styles.subItem}>회의</li>
-              <li className={styles.subItem}>문서</li>
-              <li>프로젝트 2</li>
-            </ul>
+            <TeamMenu /> {/* TeamMenu 통합 */}
           </div>
         </nav>
         <footer className={styles.footer}>
@@ -50,10 +48,11 @@ const Personal = () => {
           <span>팀플용</span>
         </header>
         <h1>팀플용 페이지</h1>
-        {/* 콘텐츠 추가 */}
+        {/* 나머지 메인 콘텐츠 추가 가능 */}
       </main>
     </div>
   );
 };
 
-export default Personal;
+export default Team;
+
