@@ -84,8 +84,8 @@ app.post("/login", (req, res) => {
       }
   
       if (result.length > 0) {
-        // 로그인 성공
-        res.json({ success: true });
+        // 로그인 성공, 닉네임 반환
+        res.json({ success: true, nickname: result[0].nickname });
       } else {
         // 로그인 실패
         res.json({ success: false, message: "아이디 또는 비밀번호 불일치" });

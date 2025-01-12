@@ -99,4 +99,71 @@
   .navbar span:hover {
     color: #007bff;
   }
-  
+  /* 일주일 일정표 컨테이너 */
+.scheduleContainer {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  max-width: 50%; /* 테이블 전체 너비 제한 */
+  max-height: calc(100vh - 150px); /* 계정-설정 부분 위로 스크롤 가능하게 높이 제한 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+
+/* 테이블 스타일 */
+.scheduleTable {
+  width: 100%; /* 테이블 전체 너비 유지 */
+  border-collapse: collapse;
+  text-align: center;
+  table-layout: fixed; /* 열 크기를 고정 */
+}
+
+.scheduleTable th,
+.scheduleTable td {
+  border: 1px solid #ddd;
+  padding: 8px; /* 셀 간격 */
+}
+
+.scheduleTable th {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.scheduleTable td {
+  background-color: #fff;
+  color: #333;
+}
+
+.scheduleTable td:first-child,
+.scheduleTable th:first-child {
+  width: 80px; /* 1열(시간) 너비를 줄임 */
+  font-weight: bold;
+  background-color: #e6f0ff;
+  font-size: 0.9rem;
+}
+
+.scheduleTable td:not(:first-child),
+.scheduleTable th:not(:first-child) {
+  width: calc((100% - 80px) / 7); /* 나머지 열의 너비를 동일하게 7로 나눔 */
+}
+
+/* 행 높이 조정 */
+.scheduleTable tr {
+  height: 100px; /* 행 높이를 두 배로 늘림 */
+}
+
+/* 스크롤바 스타일 */
+.scheduleContainer::-webkit-scrollbar {
+  width: 8px; /* 스크롤바 너비 */
+}
+
+.scheduleContainer::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* 스크롤바 색상 */
+  border-radius: 10px;
+}
+
+.scheduleContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

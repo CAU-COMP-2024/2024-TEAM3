@@ -1,0 +1,110 @@
+/* 전체 컨테이너 */
+.container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* 좌측 네비게이션 바 */
+.sidebar {
+  width: 250px;
+  background-color: #e6f0ff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 30px;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.nav {
+  flex: 1;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #0056b3;
+  margin-left: 10px;
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.section ul li {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.section ul li.subItem {
+  margin-left: 40px;
+}
+
+.section ul li:hover {
+  color: #007bff;
+}
+
+/* 하단 영역 */
+.footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+/* 메인 콘텐츠 영역 */
+.mainContent {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+}
+
+/* 상단 네비게이션 바 */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.navbar span {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbar span:hover {
+  color: #007bff;
+}
+
+  
+  /* 페이지 제목 */
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+  }
+  

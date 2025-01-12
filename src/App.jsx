@@ -9,6 +9,8 @@ import Frame1 from "./pages/Frame1";
 import Frame from "./pages/Frame";
 import Frame2 from "./pages/Frame2";
 import Home from "./pages/Home"; // 메인 페이지
+import Personal from "./pages/Personal"; // 개인용 페이지 추가
+import Team from "./pages/Team"; // 팀플용 페이지 추가
 
 function App() {
   const action = useNavigationType();
@@ -67,6 +69,8 @@ function App() {
       <Route path="/3" element={<Frame />} />
       <Route path="/" element={<Frame2 />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/personal" element={<Personal />} /> {/* 개인용 페이지 라우트 */}
+      <Route path="/team" element={<Team />} /> {/* 팀플용 페이지 라우트 */}
     </Routes>
   );
 }
