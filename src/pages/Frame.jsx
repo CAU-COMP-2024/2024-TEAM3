@@ -39,24 +39,29 @@ const Frame = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>비밀번호 찾기</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {/* 이메일 입력 필드 */}
-        <input
-          type="text"
-          name="user_id"
-          placeholder="아이디"
-          value={user_id}
-          onChange={handleChange}
-          className={styles.inputField}
-          required
-        />
-        {/* 제출 버튼 */}
-        <button type="submit" className={styles.submitButton}>
-          비밀번호 찾기
-        </button>
-      </form>
+    <div className={styles.page}>
+      {/* 고정된 상단 헤더 */}
+      <div className={styles.header}>오리어 로고(추가예정)</div>
+
+      <div className={styles.container}>
+        <h2 className={styles.title}>비밀번호 찾기</h2>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {/* 이메일 입력 필드 */}
+          <input
+            type="text"
+            name="user_id"
+            placeholder="아이디"
+            value={user_id}
+            onChange={handleChange}
+            className={styles.inputField}
+            required
+          />
+          {/* 제출 버튼 */}
+          <button type="submit" className={styles.submitButton}>
+            비밀번호 찾기
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

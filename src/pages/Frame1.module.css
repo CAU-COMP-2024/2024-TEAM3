@@ -1,242 +1,113 @@
-.child,
-.icon {
-  position: absolute;
-}
-.child {
-  top: 0;
-  left: 0;
-  background-color: var(--color-lightskyblue);
-  width: 1920px;
-  height: 110px;
-}
-.icon {
-  object-fit: cover;
-}
-.div1,
-.icon {
-  top: 0;
-  left: 0;
-  width: 1920px;
-  height: 110px;
-}
-.div1,
-.div3,
-.item {
-  position: absolute;
-}
-.item {
-  top: 0;
-  left: 0;
-  background-color: var(--color-white);
-  border: 1.9px solid var(--color-lightsteelblue-200);
-  box-sizing: border-box;
-  width: 815px;
-  height: 59px;
-}
-.div3 {
-  top: 17px;
-  left: 27px;
-  font-weight: 300;
-}
-.div2,
-.div4,
-.rectangleIcon {
-  position: absolute;
-  top: 625px;
-  left: 552px;
-  width: 815px;
-  height: 59px;
-}
-.div4,
-.rectangleIcon {
-  top: 682px;
-}
-.rectangleIcon {
-  top: 0;
-  left: 0;
-}
-.div7 {
-  position: absolute;
-  top: 16px;
-  left: 27px;
-  font-weight: 300;
-}
-.div6 {
-  top: 739px;
-  left: 552px;
-  width: 815px;
-  height: 59px;
-}
-.child1,
-.div10,
-.div6 {
-  position: absolute;
-}
-.child1 {
-  top: 0;
-  left: 0;
-  width: 815px;
-  height: 118px;
-}
-.div10 {
-  top: 74px;
-  left: 27px;
-  font-weight: 300;
-}
-.div8,
-.icon1,
-.icon2 {
-  position: absolute;
-  top: 842px;
-  left: 552px;
-  width: 815px;
-  height: 118px;
-}
-.icon1,
-.icon2 {
-  top: 310px;
-  left: 809px;
-  width: 302px;
-  height: 290px;
-}
-.icon2 {
-  top: 498px;
-  left: 1021px;
-  width: 50px;
-  height: 50px;
-}
-.rectangleDiv {
-  top: 0;
-  left: 0;
-  background-color: var(--color-darkslategray);
-  width: 117px;
-  height: 52px;
-}
-.div11,
-.div12,
-.rectangleDiv {
-  position: absolute;
-}
-.div12 {
-  top: 13px;
-  left: 20px;
-  font-weight: 300;
-}
-.div11 {
-  top: 1025px;
-  left: 901px;
-  width: 117px;
-  height: 52px;
-  color: var(--color-white);
-}
-.node {
-  white-space: pre-wrap;
-}
-.span {
-  text-decoration: underline;
-}
-.child2,
-.div14 {
-  position: absolute;
-}
-.div14 {
-  top: 0;
-  left: 0;
-  font-weight: 300;
-}
-.child2 {
-  top: 4px;
-  left: 185px;
-  width: 64px;
-  height: 30px;
-  cursor: pointer;
-}
-.div13 {
-  top: 1144px;
-  left: 835px;
-  width: 249px;
-  height: 34px;
-  color: var(--color-silver);
-}
-.child3,
-.div13,
-.div15 {
-  position: absolute;
-}
-.div15 {
-  top: 190px;
-  left: 873px;
-  font-size: var(--font-size-31xl);
-  font-weight: 500;
-  color: var(--color-darkslategray);
-}
-.child3 {
-  top: 18px;
-  left: 790px;
-  background-color: var(--color-gainsboro);
-  width: 339px;
-  height: 66px;
-  opacity: 0;
-  cursor: pointer;
-}
-.div {
-  width: 100%;
+.page {
   position: relative;
-  background-color: var(--color-whitesmoke);
-  height: 1200px;
-  overflow: hidden;
-  text-align: left;
-  font-size: var(--font-size-3xl);
-  color: var(--color-lightslategray);
-  font-family: var(--font-pretendard);
+  padding-top: 120px; /* 고정된 상단바 높이만큼 아래로 밀기 */
 }
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  background-color: #8cb7e5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+  font-family: "Pretendard", Arial, sans-serif;
+}
+
+/* 페이지 컨테이너 */
 .formContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px auto;
-  padding: 20px;
+  justify-content: center;
+  height: 100vh; /* 화면 전체 높이 */
   background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  font-family: "Pretendard", Arial, sans-serif;
 }
 
+
+/* 제목 */
 .title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: #435364;
+  font-family: "Pretendard", sans-serif;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0; /* 기본 여백 제거 */
 }
 
+/* 폼 */
+.form {
+  width: 815px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 20px;
+  font-family: "Pretendard", Arial, sans-serif;
+}
+
+/* 입력 필드 */
 .inputField {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+  width: 673px;
+  height: 60px;
+  padding: 0 20px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Pretendard", Arial, sans-serif;
 }
 
+/* 입력 필드 포커스 애니메이션 */
+.inputField:focus {
+  border-color: #435364;
+  box-shadow: 0 0 10px rgba(140, 183, 229, 0.5);
+  outline: none;
+}
+
+/* 제출 버튼 */
 .submitButton {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: #007BFF;
+  width: 117px;
+  height: 52px;
+  flex-shrink: 0;
+  background-color: #435364;
   color: white;
+  font-size: 22px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Pretendard", Arial, sans-serif;
+  margin-top: 40px;
 }
 
 .submitButton:hover {
-  background-color: #0056b3;
+  background-color: #2c3743;
 }
 
+/* 로그인 리디렉션 텍스트 */
 .loginRedirect {
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 0.9rem;
+  color: #B8BBB7;
+  font-family: "Pretendard", Arial, sans-serif;
 }
 
 .loginLink {
-  color: #007BFF;
   cursor: pointer;
+  color: #B8BBB7;
   text-decoration: underline;
+  font-family: "Pretendard", Arial, sans-serif;
+}
+
+.loginLink:hover {
+  color: #B8BBB7;
 }

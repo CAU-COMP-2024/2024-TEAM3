@@ -38,7 +38,7 @@ const Frame1 = () => {
         nickname: formData.nickname,
       });
       alert(response.data); // 백엔드 응답 메시지 표시
-      navigate("/"); // 회원가입 후 메인 페이지로 이동
+      navigate("/4"); // 회원가입 후 메인 페이지로 이동
     } catch (error) {
       console.error(error);
       alert("회원가입 실패!");
@@ -46,56 +46,62 @@ const Frame1 = () => {
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h2 className={styles.title}>회원가입</h2>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <input
-          type="text"
-          name="user_id"
-          placeholder="아이디"
-          value={formData.user_id}
-          onChange={handleChange}
-          className={styles.inputField}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="비밀번호"
-          value={formData.password}
-          onChange={handleChange}
-          className={styles.inputField}
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="비밀번호 확인"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className={styles.inputField}
-          required
-        />
-        <input
-          type="text"
-          name="nickname"
-          placeholder="닉네임"
-          value={formData.nickname}
-          onChange={handleChange}
-          className={styles.inputField}
-          required
-        />
-        <button type="submit" className={styles.submitButton}>
-          가입하기
-        </button>
-      </form>
-      <div className={styles.loginRedirect}>
-        이미 회원이라면? <span className={styles.loginLink} onClick={() => navigate("/")}>로그인</span>
+    <div className={styles.page}>
+      {/* 고정된 상단바 */}
+      <div className={styles.header}>오리어 로고(추가예정)</div>
+
+      <div className={styles.formContainer}>
+        <h2 className={styles.title}>회원가입</h2>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            type="text"
+            name="user_id"
+            placeholder="아이디"
+            value={formData.user_id}
+            onChange={handleChange}
+            className={styles.inputField}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            value={formData.password}
+            onChange={handleChange}
+            className={styles.inputField}
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호 확인"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className={styles.inputField}
+            required
+          />
+          <input
+            type="text"
+            name="nickname"
+            placeholder="닉네임"
+            value={formData.nickname}
+            onChange={handleChange}
+            className={styles.inputField}
+            required
+          />
+          <button type="submit" className={styles.submitButton}>
+            가입하기
+          </button>
+        </form>
+        <div className={styles.loginRedirect}>
+          이미 회원이라면?{" "}
+          <span className={styles.loginLink} onClick={() => navigate("/4")}>
+            로그인
+          </span>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Frame1;
-
-

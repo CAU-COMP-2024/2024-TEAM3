@@ -85,13 +85,32 @@ app.post("/login", (req, res) => {
   
       if (result.length > 0) {
         // 로그인 성공, 닉네임 반환
-        res.json({ success: true, nickname: result[0].nickname });
+        res.json({ success: true, userId: result[0].id, nickname: result[0].nickname });
       } else {
         // 로그인 실패
         res.json({ success: false, message: "아이디 또는 비밀번호 불일치" });
       }
     });
   });
+  // GET 일정 데이터
+app.get("/api/schedule", (req, res) => {
+  res.json(scheduleData);
+});
+
+// POST 일정 데이터 저장
+app.post("/api/schedule", (req, res) => {
+  const { date, schedule, tasks } = req.body;
+
+  // 기존 데이터 업데이트 또는 새로운 데이터 추가
+  const existingEntryIndex = scheduleData.findIndex((entry) => entry.date === date);
+  if (existingEntryIndex !== -1) {
+    scheduleData[existingEntryIndex] = { date, schedule, tasks };
+  } else {
+    scheduleData.push({ date, schedule, tasks });
+  }
+
+  res.status(200).json({ message: "Schedule saved successfully!" });
+});
 // 서버 실행
 app.listen(3001, () => {
     console.log('Server running on http://localhost:3001');

@@ -8,9 +8,14 @@ import {
 import Frame1 from "./pages/Frame1";
 import Frame from "./pages/Frame";
 import Frame2 from "./pages/Frame2";
+import Frame3 from "./pages/Frame3";
+
 import Home from "./pages/Home"; // 메인 페이지
 import Personal from "./pages/Personal"; // 개인용 페이지 추가
 import Team from "./pages/Team"; // 팀플용 페이지 추가
+import ThingsToDo from "./pages/ThingsToDo"; // 새로 생성할 컴포넌트
+import AllAboutExam from "./pages/AllAboutExam"; // 새로 생성할 컴포넌트
+import Schedule from "./pages/Schedule";
 
 function App() {
   const action = useNavigationType();
@@ -43,7 +48,7 @@ function App() {
       case "/home":
         title = "메인 페이지";
         metaDescription = "메인 페이지입니다.";
-      break;
+        break;
       default:
         title = "ALL HERE";
         metaDescription = "ALL HERE에 오신 것을 환영합니다.";
@@ -65,12 +70,16 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Frame2 />} />
       <Route path="/2" element={<Frame1 />} />
       <Route path="/3" element={<Frame />} />
-      <Route path="/" element={<Frame2 />} />
+      <Route path="/4" element={<Frame2 />} />
       <Route path="/home" element={<Home />} />
       <Route path="/personal" element={<Personal />} /> {/* 개인용 페이지 라우트 */}
       <Route path="/team" element={<Team />} /> {/* 팀플용 페이지 라우트 */}
+      <Route path="/things-to-do" element={<ThingsToDo />} />
+      <Route path="/all-about-exam" element={<AllAboutExam />} />
+      <Route path="/schedule" element={<Schedule />} />
     </Routes>
   );
 }

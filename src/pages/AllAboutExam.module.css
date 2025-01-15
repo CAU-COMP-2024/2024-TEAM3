@@ -1,0 +1,305 @@
+.allAboutExamChild {
+  position: absolute;
+  top: 161px;
+  left: 76px;
+  background-color: var(--color-lightsteelblue-100);
+  width: 248px;
+  height: 39px;
+  cursor: pointer;
+}
+.allAboutExamInner,
+.allAboutExamItem,
+.rectangleDiv {
+  position: absolute;
+  top: 240px;
+  left: 110px;
+  background-color: var(--color-lightsteelblue-100);
+  width: 214px;
+  height: 32px;
+}
+.allAboutExamInner,
+.rectangleDiv {
+  top: 276px;
+  left: 141px;
+  width: 183px;
+  height: 22px;
+}
+.rectangleDiv {
+  top: 0;
+  left: 370px;
+  border-radius: var(--br-50xl);
+  background-color: var(--color-whitesmoke);
+  width: 1658px;
+  height: 1200px;
+}
+.allHere {
+  position: absolute;
+  top: 37px;
+  left: 86px;
+  font-size: var(--font-size-22xl);
+  font-weight: 600;
+}
+.div,
+.div1,
+.div2 {
+  position: absolute;
+  top: 59px;
+  left: 277px;
+}
+.div1,
+.div2 {
+  top: 166px;
+  left: 86px;
+  font-size: var(--font-size-5xl);
+}
+.div2 {
+  top: 392px;
+}
+.allAboutExam1,
+.div3,
+.div4,
+.div5,
+.div6,
+.thingsToDo {
+  position: absolute;
+  top: 212px;
+  left: 117px;
+  font-weight: 300;
+}
+.allAboutExam1,
+.div3,
+.div4,
+.div5,
+.div6 {
+  top: 438px;
+}
+.allAboutExam1,
+.div4,
+.div5,
+.div6 {
+  top: 566px;
+}
+.allAboutExam1,
+.div5,
+.div6 {
+  top: 1046px;
+  left: 78px;
+}
+.allAboutExam1,
+.div6 {
+  top: 1093px;
+}
+.allAboutExam1 {
+  top: 245px;
+  left: 117px;
+}
+.div10,
+.div11,
+.div12,
+.div13,
+.div7,
+.div8,
+.div9 {
+  position: absolute;
+  top: 278px;
+  left: 149px;
+  font-size: var(--font-size-sm);
+  font-weight: 300;
+}
+.div10,
+.div11,
+.div12,
+.div13,
+.div8,
+.div9 {
+  top: 471px;
+}
+.div10,
+.div11,
+.div12,
+.div13,
+.div9 {
+  top: 493px;
+}
+.div10,
+.div11,
+.div12,
+.div13 {
+  top: 515px;
+}
+.div11,
+.div12,
+.div13 {
+  top: 537px;
+}
+.div12,
+.div13 {
+  top: 300px;
+}
+.div13 {
+  top: 322px;
+}
+.allAboutExamChild1,
+.lineDiv {
+  position: absolute;
+  top: 1007.5px;
+  left: 12.5px;
+  border-top: 1px solid var(--color-white);
+  box-sizing: border-box;
+  width: 346px;
+  height: 1px;
+}
+.allAboutExamChild1 {
+  top: 105.5px;
+}
+.comp21,
+.icon,
+.icon1,
+.icon2,
+.icon3 {
+  position: absolute;
+  top: 1041px;
+  left: 23px;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+.comp21,
+.icon1,
+.icon2,
+.icon3 {
+  top: 1086px;
+  width: 36px;
+  height: 35px;
+}
+.comp21,
+.icon2,
+.icon3 {
+  top: 159px;
+  left: 20px;
+  width: 46px;
+  height: 43px;
+}
+.comp21,
+.icon3 {
+  top: 381px;
+  left: 16px;
+  width: 54px;
+  height: 50px;
+}
+.comp21 {
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 106px;
+}
+.allAboutExamChild2,
+.allAboutExamChild3,
+.allAboutExamChild4,
+.allAboutExamChild5,
+.allAboutExamChild6 {
+  position: absolute;
+  top: 387px;
+  left: 76px;
+  background-color: var(--color-lightsteelblue-100);
+  width: 248px;
+  height: 39px;
+  opacity: 0;
+  cursor: pointer;
+}
+.allAboutExamChild3,
+.allAboutExamChild4,
+.allAboutExamChild5,
+.allAboutExamChild6 {
+  top: 433px;
+  left: 110px;
+  width: 214px;
+  height: 32px;
+}
+.allAboutExamChild4,
+.allAboutExamChild5,
+.allAboutExamChild6 {
+  top: 207px;
+}
+.allAboutExamChild5,
+.allAboutExamChild6 {
+  top: 1036px;
+  left: 13px;
+  background-color: var(--color-gainsboro);
+  width: 340px;
+  height: 42px;
+}
+.allAboutExamChild6 {
+  top: 27px;
+  left: 14px;
+  width: 339px;
+  height: 66px;
+}
+.allAboutExamChild7 {
+  position: absolute;
+  top: 105.5px;
+  left: 379.5px;
+  border-top: 1px solid var(--color-darkslategray);
+  box-sizing: border-box;
+  width: 1525px;
+  height: 1px;
+}
+.main {
+  font-weight: 300;
+  white-space: pre-wrap;
+}
+.span {
+  font-weight: 600;
+}
+.mainContainer {
+  top: 53px;
+  left: 427px;
+  font-size: var(--font-size-9xl);
+}
+.allAboutExam2,
+.comp,
+.mainContainer {
+  position: absolute;
+  color: var(--color-darkslategray);
+}
+.allAboutExam2 {
+  top: 124px;
+  left: 419px;
+  font-size: var(--font-size-17xl);
+}
+.comp {
+  top: 166px;
+  left: 422px;
+  font-weight: 300;
+}
+.allAboutExamChild10,
+.allAboutExamChild8,
+.allAboutExamChild9 {
+  position: absolute;
+  top: 223px;
+  left: 417px;
+  background-color: var(--color-gainsboro);
+  width: 700px;
+  height: 900px;
+}
+.allAboutExamChild10,
+.allAboutExamChild9 {
+  left: 1152px;
+  width: 725px;
+  height: 470px;
+}
+.allAboutExamChild10 {
+  top: 723px;
+  height: 400px;
+}
+.allAboutExam {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-lightskyblue);
+  height: 1200px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-lg);
+  color: var(--color-white);
+  font-family: var(--font-pretendard);
+}

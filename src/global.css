@@ -27,6 +27,7 @@ body {
 :root {
   /* fonts */
   --font-pretendard: Pretendard;
+  --font-size-17xl: 32px;
 
   /* font sizes */
   --font-size-sm: 14px;
