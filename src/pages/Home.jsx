@@ -9,7 +9,6 @@ const Home = () => {
   const [tasksDueSoon, setTasksDueSoon] = useState([]);
   const [currentSchedule, setCurrentSchedule] = useState(null);
   const [nextSchedule, setNextSchedule] = useState(null);
-
   useEffect(() => {
     // 닉네임 가져오기
     const storedNickname = sessionStorage.getItem("nickname");

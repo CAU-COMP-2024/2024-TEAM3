@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./ThingsToDo.module.css";
 
 const ThingsToDo = () => {
@@ -100,7 +100,7 @@ const ThingsToDo = () => {
     <div className={styles.thingsToDo}>
       <div className={styles.allHere}>ALL HERE</div>
       <div className={styles.mainContainer}>
-        <span className={styles.main}>MAIN</span>
+        <span className={styles.main}><Link to="/home">MAIN</Link> {/* 추가된 링크 */}</span>
         <span className={styles.span}>개인용</span>
         <span className={styles.main}>팀플용</span>
       </div>
