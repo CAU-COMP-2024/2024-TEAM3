@@ -4,26 +4,10 @@ import styles from "./AllAboutExam.module.css";
 
 const AllAboutExam = () => {
   const navigate = useNavigate();
-  const [weekDates, setWeekDates] = useState([]);
   const [schedule, setSchedule] = useState({});
 
+  // 로컬 스토리지에서 examSchedule 불러오기
   useEffect(() => {
-    // 현재 주차 계산
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0: Sunday, 1: Monday, ...
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); // 월요일
-
-    const week = Array.from({ length: 5 }, (_, i) => {
-      const date = new Date(monday);
-      date.setDate(monday.getDate() + i);
-      const days = ["월", "화", "수", "목", "금"];
-      return `${date.getMonth() + 1}/${date.getDate()} (${days[i]})`;
-    });
-
-    setWeekDates(week);
-
-    // 로컬 스토리지에서 데이터 로드
     const savedSchedule = JSON.parse(localStorage.getItem("examSchedule")) || {};
     setSchedule(savedSchedule);
   }, []);
@@ -31,6 +15,9 @@ const AllAboutExam = () => {
   const handleAddClick = () => {
     navigate("/exam");
   };
+
+  // 월~금 고정 배열
+  const days = ["월", "화", "수", "목", "금"];
 
   return (
     <div className={styles.allAboutExam}>
@@ -76,34 +63,36 @@ const AllAboutExam = () => {
       </div>
       <div className={styles.allAboutExam2}>개인용 - All about exam</div>
       <div className={styles.comp}>오늘의 주요일정: COMP 프로젝트 발표</div>
+
+      {/* 요일 헤더(월~금)와 시간 테이블 */}
       <div className={styles.allAboutExamChild8}>
         <table className={styles.scheduleTable}>
           <thead>
             <tr>
               <th>시간</th>
-              {weekDates.map((date, index) => (
-                <th key={index}>{date}</th>
+              {days.map((day, index) => (
+                <th key={index}>{day}</th>
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ color: "black" }}>
             {Array.from({ length: 10 }, (_, i) => (
               <tr key={i}>
                 <td>{`${9 + i}:00~${10 + i}:00`}</td>
-                {weekDates.map((date, j) => {
-                  const dayKey = date.split(" ")[0]; // "1/17" 형태로 키 변환
-                  return (
-                    <td key={j} className={styles.cell}>
-                      {schedule[dayKey]?.[i] || ""}
-                    </td>
-                  );
-                })}
+                {days.map((day, j) => (
+                  <td key={j} className={styles.cell}>
+                    {schedule[day]?.[i] || ""}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <button className={styles.addButton} onClick={handleAddClick}>+ 추가</button>
+
+      <button className={styles.addButton} onClick={handleAddClick}>
+        + 추가
+      </button>
       <div className={styles.allAboutExamChild9} />
       <div className={styles.allAboutExamChild10} />
     </div>
