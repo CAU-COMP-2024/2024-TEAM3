@@ -99,9 +99,9 @@ const ThingsToDo = () => {
           <div className={styles.menuHeader}>개인용</div>
           <div className={styles.menuItem}>Things to do</div>
           <div className={styles.menuItem}>All about exam</div>
-          <div className={styles.menuItem}>과목 1</div>
-          <div className={styles.menuItem}>과목 2</div>
-          <div className={styles.menuItem}>과목 3</div>
+          <div className={styles.menuItem2}>과목 1</div>
+          <div className={styles.menuItem2}>과목 2</div>
+          <div className={styles.menuItem2}>과목 3</div>
           <div className={styles.menuHeader}>팀플용</div>
           <div className={styles.menuItem}>프로젝트 1</div>
           <div className={styles.menuItem}>프로젝트 2</div>
@@ -111,7 +111,7 @@ const ThingsToDo = () => {
       <div className={styles.mainContainer}>
         <div className={styles.navbar}>
           <span className={styles.navLink}>MAIN</span>
-          <span className={styles.navLink}>개인용</span>
+          <span className={styles.navLinkNow}>개인용</span>
           <span className={styles.navLink}>팀플용</span>
         </div>
 

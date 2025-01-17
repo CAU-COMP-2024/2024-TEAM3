@@ -4,6 +4,7 @@
   background-color: var(--color-lightskyblue);
 }
 
+
 .sidebar {
   width: 250px;
   background-color: #8cb7e5;
@@ -51,6 +52,10 @@
   padding-left: 80px; 
 }
 
+.menuItem:hover {
+  background-color: #A8CAEC;
+}
+
 .menuItem2 {
   margin: 10px 0;
   cursor: pointer;
@@ -61,6 +66,10 @@
   font-weight: 300;
   line-height: normal;
   padding-left: 110px; 
+}
+
+.menuItem2:hover {
+  background-color: #A8CAEC;
 }
 
 .mainContainer {
@@ -91,6 +100,10 @@
   line-height: normal;
 }
 
+.navLink:hover {
+  transform: scale(1.05); /* 확대 효과 */
+}
+
 .navLinkNow {
   margin: 0 15px;
   cursor: pointer;
@@ -101,6 +114,10 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+}
+
+.navLinkNow:hover {
+  transform: scale(1.05); /* 확대 효과 */
 }
 
 .content {
