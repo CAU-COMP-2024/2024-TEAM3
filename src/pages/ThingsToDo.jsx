@@ -15,17 +15,27 @@ const ThingsToDo = () => {
 
   // 오늘의 일정 및 할 일 데이터 로드
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem(formattedDate)) || {};
+    // ───────────────────────────────────────────
+    // 원래는 localStorage.getItem(formattedDate)를 썼지만,
+    // 이제는 "schedule" 키에서 전체 스케줄을 불러온 뒤,
+    // [formattedDate]에 해당하는 데이터를 꺼내옵니다.
+    // ───────────────────────────────────────────
+    const allSchedules = JSON.parse(localStorage.getItem("schedule")) || {};
+    const savedData = allSchedules[formattedDate] || {
+      schedule: [],
+      tasks: [],
+    };
 
-    // 일정 데이터를 병합
-    const formattedSchedule = (savedData.schedule || [])
-      .map((item, index) => ({
-        time: `${7 + index}:00 - ${8 + index}:00`,
-        description: item,
-      }))
-      .filter((item) => item.description); // 비어 있는 일정 제거
+    // savedData.schedule 은 [{ time: "7:00 - 8:00", description: "..." }, ...] 형태
+    // 비어 있는(description가 없거나 "") 일정 제거
+    const formattedSchedule = (savedData.schedule || []).filter(
+      (item) => item.description
+    );
 
-    // 같은 내용의 일정 병합
+    // ───────────────────────────────────────
+    // "같은 내용의 일정"을 시간대 연속으로 합치는 로직
+    // 기존 코드를 조금 수정하여, item.time 그대로 사용
+    // ───────────────────────────────────────
     const mergedSchedule = [];
     formattedSchedule.forEach((item) => {
       if (
@@ -34,7 +44,9 @@ const ThingsToDo = () => {
       ) {
         const last = mergedSchedule.pop();
         mergedSchedule.push({
-          time: `${last.time.split(" - ")[0]} - ${item.time.split(" - ")[1]}`,
+          time: `${last.time.split(" - ")[0]} - ${
+            item.time.split(" - ")[1]
+          }`,
           description: item.description,
         });
       } else {
@@ -49,7 +61,11 @@ const ThingsToDo = () => {
   // 이전 달로 이동
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
-      const newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1);
+      const newDate = new Date(
+        prevDate.getFullYear(),
+        prevDate.getMonth() - 1,
+        1
+      );
       return newDate;
     });
   };
@@ -57,7 +73,11 @@ const ThingsToDo = () => {
   // 다음 달로 이동
   const goToNextMonth = () => {
     setCurrentDate((prevDate) => {
-      const newDate = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1);
+      const newDate = new Date(
+        prevDate.getFullYear(),
+        prevDate.getMonth() + 1,
+        1
+      );
       return newDate;
     });
   };
@@ -100,7 +120,9 @@ const ThingsToDo = () => {
     <div className={styles.thingsToDo}>
       <div className={styles.allHere}>ALL HERE</div>
       <div className={styles.mainContainer}>
-        <span className={styles.main}><Link to="/home">MAIN</Link> {/* 추가된 링크 */}</span>
+        <span className={styles.main}>
+          <Link to="/home">MAIN</Link> {/* 추가된 링크 */}
+        </span>
         <span className={styles.span}>개인용</span>
         <span className={styles.main}>팀플용</span>
       </div>
@@ -112,7 +134,10 @@ const ThingsToDo = () => {
             {"<"}
           </button>
           <h2>
-            {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
+            {currentDate.toLocaleString("default", {
+              month: "long",
+              year: "numeric",
+            })}
           </h2>
           <button onClick={goToNextMonth} className={styles.arrowButton}>
             {">"}
@@ -135,11 +160,16 @@ const ThingsToDo = () => {
                     className={day ? styles.activeDay : styles.inactiveDay}
                     onClick={() =>
                       day &&
-                      navigate(`/schedule?date=${currentDate.getFullYear()}-${(
-                        currentDate.getMonth() + 1
+                      navigate(
+                        `/schedule?date=${currentDate.getFullYear()}-${(
+                          currentDate.getMonth() + 1
+                        )
+                          .toString()
+                          .padStart(2, "0")}-${day
+                          .toString()
+                          .padStart(2, "0")}`
                       )
-                        .toString()
-                        .padStart(2, "0")}-${day.toString().padStart(2, "0")}`)}
+                    }
                   >
                     {day}
                   </td>

@@ -10,7 +10,7 @@ const Schedule = () => {
   const query = new URLSearchParams(location.search);
   const selectedDate = query.get("date");
 
-  // 상태 초기화
+  // 상태 초기화 (일정: 17칸, 각 칸에 문자열)
   const [schedule, setSchedule] = useState(Array.from({ length: 17 }, () => ""));
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState(""); // 할 일 입력값
@@ -20,9 +20,24 @@ const Schedule = () => {
   // 로컬 스토리지에서 데이터 불러오기
   useEffect(() => {
     if (selectedDate) {
-      const savedData = JSON.parse(localStorage.getItem(selectedDate)) || {};
-      setSchedule(savedData.schedule || Array.from({ length: 17 }, () => ""));
-      setTasks(savedData.tasks || []);
+      // 기존에 저장된 전체 스케줄(날짜별)을 불러온 뒤, 현재 날짜 데이터만 추출
+      const allSchedules = JSON.parse(localStorage.getItem("schedule")) || {};
+      const savedData = allSchedules[selectedDate] || {
+        schedule: [],
+        tasks: [],
+      };
+
+      // savedData.schedule는 [{ time, description }, ...] 형태
+      // 우리 state(schedule)는 ["설명", ...] (길이17) 형태라서 변환 필요:
+      const loadedSchedule = Array.from({ length: 17 }, (_, i) => {
+        const rowTime = `${7 + i}:00 - ${8 + i}:00`;
+        const foundObj = savedData.schedule.find((obj) => obj.time === rowTime);
+        return foundObj ? foundObj.description : "";
+      });
+      setSchedule(loadedSchedule);
+
+      // 할 일 목록
+      setTasks(savedData.tasks);
     }
   }, [selectedDate]);
 
@@ -71,12 +86,29 @@ const Schedule = () => {
 
   // 제출 버튼 클릭 핸들러
   const handleSubmit = () => {
-    const savedData = {
-      date: selectedDate,
-      schedule,
-      tasks,
+    if (!selectedDate) {
+      alert("날짜가 선택되지 않았습니다!");
+      return;
+    }
+
+    // 1) 기존 전체 스케줄을 불러옴
+    const allSchedules = JSON.parse(localStorage.getItem("schedule")) || {};
+
+    // 2) schedule state(길이17)를 [{time, description}, ...]로 변환
+    const finalArray = schedule.map((desc, i) => ({
+      time: `${7 + i}:00 - ${8 + i}:00`,
+      description: desc,
+    }));
+
+    // 3) 현재 날짜에 해당하는 데이터 갱신
+    allSchedules[selectedDate] = {
+      schedule: finalArray, // 시간표 배열
+      tasks,                // 할 일 목록
     };
-    localStorage.setItem(selectedDate, JSON.stringify(savedData));
+
+    // 4) 통째로 저장
+    localStorage.setItem("schedule", JSON.stringify(allSchedules));
+
     alert("일정이 저장되었습니다!");
     navigate("/things-to-do");
   };

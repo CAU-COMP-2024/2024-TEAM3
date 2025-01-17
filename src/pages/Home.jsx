@@ -6,9 +6,10 @@ const Home = () => {
   const [nickname, setNickname] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [weekSchedule, setWeekSchedule] = useState([]);
-  const [tasksDueSoon, setTasksDueSoon] = useState([]);
+  const [tasksDueSoon, setTasksDueSoon] = useState([]); // 오늘 날짜 tasks
   const [currentSchedule, setCurrentSchedule] = useState(null);
   const [nextSchedule, setNextSchedule] = useState(null);
+
   useEffect(() => {
     // 닉네임 가져오기
     const storedNickname = sessionStorage.getItem("nickname");
@@ -16,16 +17,15 @@ const Home = () => {
       setNickname(storedNickname);
     }
 
-    // 현재 시간 업데이트
+    // 현재 시간 1초마다 업데이트
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
 
-    // /schedule 데이터 가져오기
+    // 전체 스케줄 데이터 불러오기 ("/schedule" 키)
     const scheduleData = JSON.parse(localStorage.getItem("schedule")) || {};
-    const tasksData = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    // 1. 일주일 일정 가져오기
+    // 1. 이번 주 일정 가져오기
     const today = new Date();
     const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
     const endOfWeek = new Date(today.setDate(today.getDate() + 6));
@@ -35,41 +35,73 @@ const Home = () => {
       const scheduleDate = new Date(date);
       if (scheduleDate >= startOfWeek && scheduleDate <= endOfWeek) {
         const dayOfWeek = scheduleDate.getDay();
-        weekScheduleData[dayOfWeek] = scheduleData[date];
+        // scheduleData[date] => { schedule: [...], tasks: [...] }
+        weekScheduleData[dayOfWeek] = scheduleData[date].schedule || [];
       }
     });
     setWeekSchedule(weekScheduleData);
 
-    // 2. D-7 이내 할 일 목록 가져오기
-    const tasksDue = tasksData.filter((task) => {
-      const dueDate = new Date(task.dueDate);
-      const daysLeft = (dueDate - new Date()) / (1000 * 60 * 60 * 24);
-      return daysLeft >= 0 && daysLeft <= 7;
-    });
-    setTasksDueSoon(tasksDue);
+    // 2. 오늘 날짜의 tasks 불러오기 (/schedule에서)
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    // 오늘 날짜에 해당하는 { schedule, tasks } 객체
+    const todayScheduleObj = scheduleData[todayStr] || { tasks: [] };
+    // 오늘 날짜에 저장된 tasks 배열(문자열 배열이라고 가정)
+    setTasksDueSoon(todayScheduleObj.tasks || []);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    // 현재와 다음 일정 업데이트
-    const todaySchedule = weekSchedule[new Date().getDay()] || [];
-    const currentTimeStr = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
-    let foundCurrent = false;
+    // "오늘"의 일정 배열
+    const dayIndex = new Date().getDay();
+    const todaySchedule = weekSchedule[dayIndex] || [];
 
-    todaySchedule.forEach((item) => {
-      const [start, end] = item.time.split(" - ");
-      if (!foundCurrent && currentTimeStr >= start && currentTimeStr < end) {
-        setCurrentSchedule(item);
-        foundCurrent = true;
-      } else if (foundCurrent && currentTimeStr < start) {
-        setNextSchedule(item);
-        return;
-      }
+    // 현재 시간(시 * 60 + 분)
+    const nowMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+
+    // 시간 순으로 정렬 (오전 7시부터 순서대로 가정)
+    const sortedSchedule = [...todaySchedule].sort((a, b) => {
+      if (!a.time || !b.time) return 0;
+      const [aStart] = a.time.split(" - ");
+      const [bStart] = b.time.split(" - ");
+      const [aH, aM] = aStart.split(":").map(Number);
+      const [bH, bM] = bStart.split(":").map(Number);
+      return aH * 60 + aM - (bH * 60 + bM);
     });
 
-    if (!foundCurrent) setCurrentSchedule(null);
-    if (!nextSchedule) setNextSchedule(todaySchedule[0]);
+    let foundCurrent = null; 
+    let foundNext = null;
+
+    // 순회하며 현재 시간에 해당하는 schedule, 다음 schedule을 찾음
+    for (const item of sortedSchedule) {
+      if (!item?.time) continue;
+      const [startStr, endStr] = item.time.split(" - ");
+      const [startH, startM] = startStr.split(":").map(Number);
+      const [endH, endM] = endStr.split(":").map(Number);
+      const startTotal = startH * 60 + startM;
+      const endTotal = endH * 60 + endM;
+
+      // 현재 시간 구간
+      if (nowMinutes >= startTotal && nowMinutes < endTotal) {
+        foundCurrent = item;
+      }
+      // 아직 current를 찾지 못했거나, 이미 찾았는데 nextSchedule이 안 정해졌을 때
+      else if (nowMinutes < startTotal && !foundNext) {
+        foundNext = item;
+      }
+      // 이미 next를 찾았다면 더 볼 필요 없이 break 가능 (시간 순이라 맨 처음 것이 다음 일정)
+      if (foundNext && foundCurrent) {
+        break;
+      }
+    }
+
+    setCurrentSchedule(foundCurrent);
+    setNextSchedule(foundNext);
   }, [currentTime, weekSchedule]);
 
   return (
@@ -144,6 +176,7 @@ const Home = () => {
                     <td key={j}>
                       {(weekSchedule[j] || [])
                         .filter((item) => {
+                          if (!item?.time) return false;
                           const [start] = item.time.split(" - ");
                           return parseInt(start.split(":")[0], 10) === 7 + i;
                         })
@@ -157,17 +190,12 @@ const Home = () => {
           </table>
         </div>
 
-        {/* 과제 To-Do-List */}
+        {/* 과제 To-Do-List (오늘 날짜 기준 schedule[].tasks 표시) */}
         <div className={styles.toDoList}>
           <h3>TO-DO</h3>
           <ul>
             {tasksDueSoon.map((task, index) => (
-              <li key={index}>
-                <span>{`d-${Math.ceil(
-                  (new Date(task.dueDate) - new Date()) / (1000 * 60 * 60 * 24)
-                )}`}</span>{" "}
-                {task.description}
-              </li>
+              <li key={index}>{task}</li>
             ))}
           </ul>
         </div>
