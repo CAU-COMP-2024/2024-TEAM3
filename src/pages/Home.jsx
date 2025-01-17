@@ -135,7 +135,6 @@ const Home = () => {
             </Link>
           </span>
           <span className={styles.navLinkNow}>개인용</span>
-          <span className={styles.navLink}>팀플용</span>
         </div>
 
         {/* 환영 메시지 */}

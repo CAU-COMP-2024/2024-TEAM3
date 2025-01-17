@@ -142,7 +142,6 @@ const ThingsToDo = () => {
             </Link>
           </span>
           <span className={styles.navLinkNow}>개인용</span>
-          <span className={styles.navLink}>팀플용</span>
         </div>
 
         {/* 메인 콘텐츠 영역 (달력 + 일정/할일) */}

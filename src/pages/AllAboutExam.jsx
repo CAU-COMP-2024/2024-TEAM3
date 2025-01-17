@@ -63,7 +63,6 @@ const AllAboutExam = () => {
       <div className={styles.navbar}>
         <span onClick={() => navigate("/home")}>MAIN </span>
         <span>개인용</span>
-        <span onClick={() => navigate("/team")}> 팀플용</span>
       </div>
 
       <div className={styles.title}>개인용 - All about exam</div>
