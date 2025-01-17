@@ -358,3 +358,23 @@
 .addButton:hover {
   background-color: var(--color-lightsteelblue-200);
 }
+
+/* =========================
+   새로 추가하는 부분 시작
+   ========================= */
+.subjectList {
+  /* All about exam 아래쪽에 절대 위치시킴 */
+  position: absolute;
+  top: 320px;  /* 필요에 따라 조정 */
+  left: 149px; /* 필요에 따라 조정 */
+  color: #ffffff;
+  font-weight: 300;
+  font-size: var(--font-size-sm);
+}
+
+.subjectItem {
+  margin-bottom: 6px; /* 과목 간 여백 */
+}
+/* =========================
+   새로 추가하는 부분 끝
+   ========================= */

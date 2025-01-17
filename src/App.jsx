@@ -17,6 +17,7 @@ import ThingsToDo from "./pages/ThingsToDo"; // 새로 생성할 컴포넌트
 import AllAboutExam from "./pages/AllAboutExam"; // 새로 생성할 컴포넌트
 import Schedule from "./pages/Schedule";
 import Exam from "./pages/Exam"; // Exam 페이지 추가
+import ExamExplain from "./pages/ExamExplain";
 function App() {
   const action = useNavigationType();
   const location = useLocation();
@@ -81,6 +82,7 @@ function App() {
       <Route path="/all-about-exam" element={<AllAboutExam />} />
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/exam" element={<Exam />} /> {/* Exam 페이지 라우트 */}
+      <Route path="/examexplain" element={<ExamExplain />} />
     </Routes>
   );
 }

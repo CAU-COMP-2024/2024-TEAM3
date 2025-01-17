@@ -1,88 +1,98 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./AllAboutExam.module.css";
 
 const AllAboutExam = () => {
   const navigate = useNavigate();
-  const [schedule, setSchedule] = useState({});
 
-  // 로컬 스토리지에서 examSchedule 불러오기
+  // 시험 일정표
+  const [schedule, setSchedule] = useState({});
+  // 과목 배열 (예: [{ name, detail: { date, time, place, scope, studyProgress } }, ...])
+  const [subjects, setSubjects] = useState([]);
+
+  // 현재 선택된 과목 이름
+  const [selectedSubject, setSelectedSubject] = useState("");
+
+  // 마운트 시 examSchedule, subjects 불러오기
   useEffect(() => {
-    const savedSchedule = JSON.parse(localStorage.getItem("examSchedule")) || {};
-    setSchedule(savedSchedule);
+    const saved = JSON.parse(localStorage.getItem("examSchedule")) || {};
+    setSchedule(saved);
+
+    const stored = JSON.parse(localStorage.getItem("subjects")) || [];
+    setSubjects(stored);
   }, []);
 
+  // “+ 추가” 버튼
   const handleAddClick = () => {
     navigate("/exam");
   };
 
-  // 월~금 고정 배열
+  // 월~금
   const days = ["월", "화", "수", "목", "금"];
+
+  // 현재 선택된 과목 detail
+  const currentSubjectObj = subjects.find((s) => s.name === selectedSubject);
+
+  // 수정 버튼 → /ExamExplain?subject=과목명
+  const handleEdit = () => {
+    if (!selectedSubject) return;
+    navigate(`/ExamExplain?subject=${encodeURIComponent(selectedSubject)}`);
+  };
 
   return (
     <div className={styles.allAboutExam}>
-      <div className={styles.allAboutExamChild} onClick={() => navigate("/things-to-do")} />
-      <div className={styles.allAboutExamItem} />
-      <div className={styles.allAboutExamInner} />
-      <div className={styles.rectangleDiv} />
-      <div className={styles.allHere}>ALL HERE</div>
-      <div className={styles.div}>오리어</div>
-      <div className={styles.div1}>개인용</div>
-      <div className={styles.div2}>팀플용</div>
-      <div className={styles.thingsToDo}>Things to do</div>
-      <div className={styles.thingsToDo}>Things to do</div>
-      <div className={styles.div3}>프로젝트 1</div>
-      <div className={styles.div4}>프로젝트 2</div>
-      <div className={styles.div5}>계정</div>
-      <div className={styles.div6}>설정</div>
-      <div className={styles.allAboutExam1}>All about exam</div>
-      <div className={styles.div7}>과목 1</div>
-      <div className={styles.div8}>역할 분담</div>
-      <div className={styles.div9}>{`일정 `}</div>
-      <div className={styles.div10}>회의</div>
-      <div className={styles.div11}>문서</div>
-      <div className={styles.div12}>과목 2</div>
-      <div className={styles.div13}>과목 3</div>
-      <div className={styles.lineDiv} />
-      <div className={styles.allAboutExamChild1} />
-      <img className={styles.icon} alt="" src="/@2x.png" />
-      <img className={styles.icon1} alt="" src="/1@2x.png" />
-      <img className={styles.icon2} alt="" src="/-@2x.png" />
-      <img className={styles.icon3} alt="" src="/2@2x.png" />
-      <img className={styles.comp21} alt="" src="/comp-2--1@2x.png" />
-      <div className={styles.allAboutExamChild2} onClick={() => navigate("/1")} />
-      <div className={styles.allAboutExamChild3} onClick={() => navigate("/1")} />
-      <div className={styles.allAboutExamChild4} onClick={() => navigate("/things-to-do")} />
-      <div className={styles.allAboutExamChild5} onClick={() => navigate("/")} />
-      <div className={styles.allAboutExamChild6} onClick={() => navigate("/4")} />
-      <div className={styles.allAboutExamChild7} />
-      <div className={styles.mainContainer}>
-        <span className={styles.main}>{`MAIN          `}</span>
-        <span className={styles.span}>개인용</span>
-        <span className={styles.main}> 팀플용</span>
+      {/* 좌측 사이드바(네비게이션) 영역 (하드코딩된 과목1, 과목2, 과목3 제거) */}
+      <div className={styles.sidebar}>
+        <h3>개인용</h3>
+        <div onClick={() => navigate("/things-to-do")}>Things to do</div>
+        <div>All about exam</div>
+        {/* 동적 과목 목록 */}
+        {subjects.map((subj) => (
+          <div
+            key={subj.name}
+            style={{ cursor: "pointer", marginLeft: "20px" }}
+            onClick={() => setSelectedSubject(subj.name)}
+          >
+            {subj.name}
+          </div>
+        ))}
+
+        <h3 style={{ marginTop: "40px" }}>팀플용</h3>
+        <div>프로젝트 1</div>
+        <div style={{ marginLeft: "20px" }}>역할 분담</div>
+        <div style={{ marginLeft: "20px" }}>일정</div>
+        <div style={{ marginLeft: "20px" }}>회의</div>
+        <div style={{ marginLeft: "20px" }}>문서</div>
+        <div>프로젝트 2</div>
       </div>
-      <div className={styles.allAboutExam2}>개인용 - All about exam</div>
+
+      {/* 상단 네비게이션 */}
+      <div className={styles.navbar}>
+        <span onClick={() => navigate("/home")}>MAIN </span>
+        <span>개인용</span>
+        <span onClick={() => navigate("/team")}> 팀플용</span>
+      </div>
+
+      <div className={styles.title}>개인용 - All about exam</div>
       <div className={styles.comp}>오늘의 주요일정: COMP 프로젝트 발표</div>
 
-      {/* 요일 헤더(월~금)와 시간 테이블 */}
-      <div className={styles.allAboutExamChild8}>
+      {/* 좌측 일정표 UI */}
+      <div className={styles.scheduleContainer}>
         <table className={styles.scheduleTable}>
           <thead>
             <tr>
               <th>시간</th>
-              {days.map((day, index) => (
-                <th key={index}>{day}</th>
+              {days.map((day, i) => (
+                <th key={i}>{day}</th>
               ))}
             </tr>
           </thead>
-          <tbody style={{ color: "black" }}>
-            {Array.from({ length: 10 }, (_, i) => (
-              <tr key={i}>
-                <td>{`${9 + i}:00~${10 + i}:00`}</td>
-                {days.map((day, j) => (
-                  <td key={j} className={styles.cell}>
-                    {schedule[day]?.[i] || ""}
-                  </td>
+          <tbody>
+            {Array.from({ length: 10 }, (_, row) => (
+              <tr key={row}>
+                <td>{`${9 + row}:00~${10 + row}:00`}</td>
+                {days.map((d) => (
+                  <td key={d}>{schedule[d]?.[row] || ""}</td>
                 ))}
               </tr>
             ))}
@@ -90,13 +100,47 @@ const AllAboutExam = () => {
         </table>
       </div>
 
+      {/* 우측 상단: 시험 과목 설명 */}
+      <div className={styles.subjectDetail}>
+        <h2>시험 과목 설명</h2>
+        {currentSubjectObj ? (
+          <div>
+            <p>
+              과목명: <b>{currentSubjectObj.name}</b>
+            </p>
+            <p>시험 날짜: {currentSubjectObj.detail.date}</p>
+            <p>시험 시간: {currentSubjectObj.detail.time}</p>
+            <p>시험 장소: {currentSubjectObj.detail.place}</p>
+            <p>시험 범위: {currentSubjectObj.detail.scope}</p>
+            <button onClick={handleEdit}>수정</button>
+          </div>
+        ) : (
+          <p>왼쪽 과목명을 클릭하세요.</p>
+        )}
+      </div>
+
+      {/* 우측 하단: 공부 진행도(메모장) */}
+      <div className={styles.studyProgress}>
+        <h3>공부 진행도 현황</h3>
+        {currentSubjectObj ? (
+          <div>
+            <pre style={{ whiteSpace: "pre-wrap" }}>
+              {currentSubjectObj.detail.studyProgress || "(내용 없음)"}
+            </pre>
+          </div>
+        ) : (
+          <p>과목을 선택하면 표시됩니다.</p>
+        )}
+      </div>
+
+      {/* +추가 버튼 */}
       <button className={styles.addButton} onClick={handleAddClick}>
         + 추가
       </button>
-      <div className={styles.allAboutExamChild9} />
-      <div className={styles.allAboutExamChild10} />
     </div>
   );
 };
 
 export default AllAboutExam;
+
+
