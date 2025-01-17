@@ -4,40 +4,56 @@ import styles from "./Exam.module.css";
 
 const Exam = () => {
   const navigate = useNavigate();
+
   const [selectedCells, setSelectedCells] = useState([]);
   const [subject, setSubject] = useState("");
   const [schedule, setSchedule] = useState({});
 
-  // 컴포넌트 마운트 시 로컬 스토리지에서 기존 시험 일정 불러오기
+  // ★ 과목 목록 (subjects)
+  //   -> [{ name: "프로그래밍", detail: { date, time, place, scope, studyProgress } }, ...]
+  const [subjects, setSubjects] = useState([]);
+
   useEffect(() => {
-    const savedSchedule = JSON.parse(localStorage.getItem("examSchedule"));
-    if (savedSchedule) {
-      setSchedule(savedSchedule);
-    }
+    // examSchedule (시간표)
+    const savedSchedule = JSON.parse(localStorage.getItem("examSchedule")) || {};
+    setSchedule(savedSchedule);
+
+    // subjects
+    const storedSubjects = JSON.parse(localStorage.getItem("subjects")) || [];
+    setSubjects(storedSubjects);
   }, []);
 
-  // schedule 상태가 바뀔 때마다 로컬 스토리지에 저장
+  // schedule, subjects 변경 시 로컬 스토리지 업데이트
   useEffect(() => {
     localStorage.setItem("examSchedule", JSON.stringify(schedule));
   }, [schedule]);
 
-  // 셀 클릭(선택) 핸들러
+  useEffect(() => {
+    localStorage.setItem("subjects", JSON.stringify(subjects));
+  }, [subjects]);
+
   const handleCellClick = (day, time) => {
     const cell = { day, time };
-    const cellIndex = selectedCells.findIndex(
-      (selected) => selected.day === day && selected.time === time
+    const foundIndex = selectedCells.findIndex(
+      (sel) => sel.day === day && sel.time === time
     );
-
-    if (cellIndex !== -1) {
-      const updatedCells = selectedCells.filter((_, index) => index !== cellIndex);
-      setSelectedCells(updatedCells);
+    if (foundIndex !== -1) {
+      // 이미 선택된 셀 → 해제
+      const updated = selectedCells.filter((_, i) => i !== foundIndex);
+      setSelectedCells(updated);
     } else {
+      // 새로 선택
       setSelectedCells([...selectedCells, cell]);
     }
   };
 
-  // 저장 버튼 핸들러
+  // "저장" 버튼
+  //  - 시간표(schedule)에 subject 입력
+  //  - subjects 배열에도 (중복 없으면) 새 과목 추가
   const handleSave = () => {
+    if (!subject.trim()) return;
+
+    // 1) schedule 업데이트
     const updatedSchedule = { ...schedule };
     selectedCells.forEach((cell) => {
       if (!updatedSchedule[cell.day]) {
@@ -45,26 +61,45 @@ const Exam = () => {
       }
       updatedSchedule[cell.day][cell.time] = subject;
     });
-
     setSchedule(updatedSchedule);
-    setSelectedCells([]); // 선택 초기화
-    setSubject(""); // 입력 필드 초기화
-  };
 
-  // 삭제 버튼 핸들러 (특정 셀의 과목을 삭제)
-  const handleDelete = (day, time) => {
-    const updatedSchedule = { ...schedule };
-    if (updatedSchedule[day] && updatedSchedule[day][time]) {
-      delete updatedSchedule[day][time];
+    // 2) subjects 배열 업데이트 (detail 기본값은 빈 객체)
+    const already = subjects.find((s) => s.name === subject.trim());
+    if (!already) {
+      const newSubject = {
+        name: subject.trim(),
+        detail: {
+          date: "",
+          time: "",
+          place: "",
+          scope: "",
+          studyProgress: "",
+        },
+      };
+      setSubjects([...subjects, newSubject]);
     }
-    setSchedule(updatedSchedule);
+
+    // 선택/입력 초기화
+    setSelectedCells([]);
+    setSubject("");
   };
 
-  // 제출 버튼 핸들러
+  // 특정 셀의 과목 삭제
+  const handleDelete = (day, time) => {
+    const updated = { ...schedule };
+    if (updated[day] && updated[day][time]) {
+      delete updated[day][time];
+    }
+    setSchedule(updated);
+  };
+
+  // "제출" 버튼 → 저장 후 /all-about-exam 이동
   const handleSubmit = () => {
     handleSave();
     navigate("/all-about-exam");
   };
+
+  const days = ["월", "화", "수", "목", "금"];
 
   return (
     <div className={styles.examPage}>
@@ -73,44 +108,41 @@ const Exam = () => {
           <thead>
             <tr>
               <th>시간</th>
-              {["월", "화", "수", "목", "금"].map((day, index) => (
-                <th key={index}>{day}</th>
+              {days.map((d, i) => (
+                <th key={i}>{d}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 10 }, (_, i) => (
-              <tr key={i}>
-                <td style={{ fontSize: "1.8em", padding: "30px" }}>{`${9 + i}:00~${10 + i}:00`}</td>
-                {["월", "화", "수", "목", "금"].map((day) => (
-                  <td
-                    key={day}
-                    className={
-                      selectedCells.some(
-                        (selected) => selected.day === day && selected.time === i
-                      )
-                        ? styles.selectedCell
-                        : styles.cell
-                    }
-                    onClick={() => handleCellClick(day, i)}
-                    style={{ width: "100px", height: "100px", position: "relative" }}
-                  >
-                    {/* 과목 표시 */}
-                    {schedule[day]?.[i] || ""}
-                    {/* 삭제 버튼 (과목이 있을 때만 표시) */}
-                    {schedule[day]?.[i] && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // 셀 클릭 이벤트가 중복으로 발생하지 않도록 버블링 막기
-                          handleDelete(day, i);
-                        }}
-                        className={styles.deleteButton}
-                      >
-                        X
-                      </button>
-                    )}
-                  </td>
-                ))}
+            {Array.from({ length: 10 }, (_, row) => (
+              <tr key={row}>
+                <td>{`${9 + row}:00~${10 + row}:00`}</td>
+                {days.map((d) => {
+                  const isSelected = selectedCells.some(
+                    (sel) => sel.day === d && sel.time === row
+                  );
+                  return (
+                    <td
+                      key={d}
+                      onClick={() => handleCellClick(d, row)}
+                      className={isSelected ? styles.selectedCell : styles.cell}
+                      style={{ position: "relative" }}
+                    >
+                      {schedule[d]?.[row] || ""}
+                      {schedule[d]?.[row] && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(d, row);
+                          }}
+                          className={styles.deleteButton}
+                        >
+                          X
+                        </button>
+                      )}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -137,3 +169,5 @@ const Exam = () => {
 };
 
 export default Exam;
+
+
