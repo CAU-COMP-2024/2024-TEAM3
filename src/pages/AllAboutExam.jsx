@@ -1,29 +1,40 @@
-import { useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AllAboutExam.module.css";
 
 const AllAboutExam = () => {
   const navigate = useNavigate();
+  const [weekDates, setWeekDates] = useState([]);
+  const [schedule, setSchedule] = useState({});
 
-  const onRectangleClick = useCallback(() => {
-    navigate("/things-to-do");
-  }, [navigate]);
+  useEffect(() => {
+    // 현재 주차 계산
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0: Sunday, 1: Monday, ...
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); // 월요일
 
-  const onRectangleClick1 = useCallback(() => {
-    navigate("/1");
-  }, [navigate]);
+    const week = Array.from({ length: 5 }, (_, i) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      const days = ["월", "화", "수", "목", "금"];
+      return `${date.getMonth() + 1}/${date.getDate()} (${days[i]})`;
+    });
 
-  const onRectangleClick2 = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
+    setWeekDates(week);
 
-  const onRectangleClick3 = useCallback(() => {
-    navigate("/4");
-  }, [navigate]);
+    // 로컬 스토리지에서 데이터 로드
+    const savedSchedule = JSON.parse(localStorage.getItem("examSchedule")) || {};
+    setSchedule(savedSchedule);
+  }, []);
+
+  const handleAddClick = () => {
+    navigate("/exam");
+  };
 
   return (
     <div className={styles.allAboutExam}>
-      <div className={styles.allAboutExamChild} onClick={onRectangleClick} />
+      <div className={styles.allAboutExamChild} onClick={() => navigate("/things-to-do")} />
       <div className={styles.allAboutExamItem} />
       <div className={styles.allAboutExamInner} />
       <div className={styles.rectangleDiv} />
@@ -52,11 +63,11 @@ const AllAboutExam = () => {
       <img className={styles.icon2} alt="" src="/-@2x.png" />
       <img className={styles.icon3} alt="" src="/2@2x.png" />
       <img className={styles.comp21} alt="" src="/comp-2--1@2x.png" />
-      <div className={styles.allAboutExamChild2} onClick={onRectangleClick1} />
-      <div className={styles.allAboutExamChild3} onClick={onRectangleClick1} />
-      <div className={styles.allAboutExamChild4} onClick={onRectangleClick} />
-      <div className={styles.allAboutExamChild5} onClick={onRectangleClick2} />
-      <div className={styles.allAboutExamChild6} onClick={onRectangleClick3} />
+      <div className={styles.allAboutExamChild2} onClick={() => navigate("/1")} />
+      <div className={styles.allAboutExamChild3} onClick={() => navigate("/1")} />
+      <div className={styles.allAboutExamChild4} onClick={() => navigate("/things-to-do")} />
+      <div className={styles.allAboutExamChild5} onClick={() => navigate("/")} />
+      <div className={styles.allAboutExamChild6} onClick={() => navigate("/4")} />
       <div className={styles.allAboutExamChild7} />
       <div className={styles.mainContainer}>
         <span className={styles.main}>{`MAIN          `}</span>
@@ -65,7 +76,34 @@ const AllAboutExam = () => {
       </div>
       <div className={styles.allAboutExam2}>개인용 - All about exam</div>
       <div className={styles.comp}>오늘의 주요일정: COMP 프로젝트 발표</div>
-      <div className={styles.allAboutExamChild8} />
+      <div className={styles.allAboutExamChild8}>
+        <table className={styles.scheduleTable}>
+          <thead>
+            <tr>
+              <th>시간</th>
+              {weekDates.map((date, index) => (
+                <th key={index}>{date}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 10 }, (_, i) => (
+              <tr key={i}>
+                <td>{`${9 + i}:00~${10 + i}:00`}</td>
+                {weekDates.map((date, j) => {
+                  const dayKey = date.split(" ")[0]; // "1/17" 형태로 키 변환
+                  return (
+                    <td key={j} className={styles.cell}>
+                      {schedule[dayKey]?.[i] || ""}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <button className={styles.addButton} onClick={handleAddClick}>+ 추가</button>
       <div className={styles.allAboutExamChild9} />
       <div className={styles.allAboutExamChild10} />
     </div>

@@ -273,7 +273,6 @@
   font-weight: 300;
 }
 .allAboutExamChild10,
-.allAboutExamChild8,
 .allAboutExamChild9 {
   position: absolute;
   top: 223px;
@@ -302,4 +301,60 @@
   font-size: var(--font-size-lg);
   color: var(--color-white);
   font-family: var(--font-pretendard);
+}
+
+.allAboutExamChild8 {
+  position: absolute;
+  top: 223px;
+  left: 417px;
+  background-color: var(--color-gainsboro);
+  width: 700px;
+  height: 900px;
+  overflow: auto;
+}
+
+.scheduleTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.scheduleTable th, .scheduleTable td {
+  border: 1px solid var(--color-darkslategray);
+  padding: 8px;
+  text-align: center;
+}
+
+.scheduleTable th {
+  background-color: var(--color-lightsteelblue-100);
+  font-weight: bold;
+}
+
+.scheduleTable td {
+  background-color: var(--color-whitesmoke);
+}
+
+.scheduleTable td:first-child {
+  color: black; /* 시간 텍스트를 검은색으로 설정 */
+}
+
+.scheduleTable .cell {
+  height: 50px;
+}
+
+.addButton {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-lightsteelblue-100);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: var(--font-size-md);
+  color: var(--color-darkslategray);
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.addButton:hover {
+  background-color: var(--color-lightsteelblue-200);
 }

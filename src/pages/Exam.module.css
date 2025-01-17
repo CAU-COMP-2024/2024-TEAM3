@@ -1,0 +1,119 @@
+.examPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .tableContainer {
+    margin-bottom: 20px;
+  }
+  
+  .scheduleTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .scheduleTable th,
+  .scheduleTable td {
+    border: 1px solid var(--color-darkslategray);
+    padding: 20px; /* 셀 내부 패딩을 4배로 확대 */
+    text-align: center;
+    font-size: 1.5em; /* 텍스트 크기 확대 */
+  }
+  
+  .scheduleTable th {
+    background-color: var(--color-lightsteelblue-100);
+    font-weight: bold;
+  }
+  
+  .scheduleTable td {
+    background-color: var(--color-whitesmoke);
+    cursor: pointer;
+    width: 80px; /* 셀 크기 확대 */
+    height: 80px;
+  }
+  
+  .scheduleTable .selectedCell {
+    background-color: var(--color-lightsteelblue-200);
+    color: var(--color-darkslategray);
+  }
+  
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .inputField {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: var(--font-size-md);
+    border: 1px solid var(--color-darkslategray);
+    border-radius: 4px;
+  }
+  
+  .saveButton,
+  .submitButton {
+    background-color: var(--color-lightsteelblue-100);
+    color: var(--color-darkslategray);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+  }
+  
+  .saveButton:hover,
+  .submitButton:hover {
+    background-color: var(--color-lightsteelblue-200);
+  }
+  
+  .navBar {
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  .navBar h3 {
+    margin-bottom: 10px;
+    font-size: var(--font-size-lg);
+    color: var(--color-darkslategray);
+  }
+  
+  .navBar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .navBar ul li {
+    margin-bottom: 5px;
+    color: var(--color-darkslategray);
+  }
+  
+  .navBar ul li strong {
+    font-weight: bold;
+  }
+  .subjectContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .deleteButton {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: darkred;
+  }
+  
