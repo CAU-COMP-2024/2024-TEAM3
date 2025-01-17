@@ -6,7 +6,7 @@ const Home = () => {
   const [nickname, setNickname] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [weekSchedule, setWeekSchedule] = useState([]);
-  const [tasksDueSoon, setTasksDueSoon] = useState([]); // 오늘 날짜 tasks
+  const [tasksDueSoon, setTasksDueSoon] = useState([]);
   const [currentSchedule, setCurrentSchedule] = useState(null);
   const [nextSchedule, setNextSchedule] = useState(null);
 
@@ -17,15 +17,15 @@ const Home = () => {
       setNickname(storedNickname);
     }
 
-    // 현재 시간 1초마다 업데이트
+    // 1초마다 현재 시간 갱신
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
 
-    // 전체 스케줄 데이터 불러오기 ("/schedule" 키)
+    // 로컬 스토리지에서 schedule 전체 불러오기
     const scheduleData = JSON.parse(localStorage.getItem("schedule")) || {};
 
-    // 1. 이번 주 일정 가져오기
+    // --- 이번 주(일~토) 일정 수집 ---
     const today = new Date();
     const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
     const endOfWeek = new Date(today.setDate(today.getDate() + 6));
@@ -41,30 +41,28 @@ const Home = () => {
     });
     setWeekSchedule(weekScheduleData);
 
-    // 2. 오늘 날짜의 tasks 불러오기 (/schedule에서)
+    // --- 오늘 날짜의 tasks ---
     const now = new Date();
     const yyyy = now.getFullYear();
     const mm = String(now.getMonth() + 1).padStart(2, "0");
     const dd = String(now.getDate()).padStart(2, "0");
     const todayStr = `${yyyy}-${mm}-${dd}`;
 
-    // 오늘 날짜에 해당하는 { schedule, tasks } 객체
     const todayScheduleObj = scheduleData[todayStr] || { tasks: [] };
-    // 오늘 날짜에 저장된 tasks 배열(문자열 배열이라고 가정)
     setTasksDueSoon(todayScheduleObj.tasks || []);
 
     return () => clearInterval(interval);
   }, []);
 
+  // 현재 일정 / 다음 일정 업데이트
   useEffect(() => {
-    // "오늘"의 일정 배열
     const dayIndex = new Date().getDay();
     const todaySchedule = weekSchedule[dayIndex] || [];
 
-    // 현재 시간(시 * 60 + 분)
+    // 현재 시간(분 단위)
     const nowMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-    // 시간 순으로 정렬 (오전 7시부터 순서대로 가정)
+    // 일정 시간 순으로 정렬
     const sortedSchedule = [...todaySchedule].sort((a, b) => {
       if (!a.time || !b.time) return 0;
       const [aStart] = a.time.split(" - ");
@@ -74,10 +72,9 @@ const Home = () => {
       return aH * 60 + aM - (bH * 60 + bM);
     });
 
-    let foundCurrent = null; 
+    let foundCurrent = null;
     let foundNext = null;
 
-    // 순회하며 현재 시간에 해당하는 schedule, 다음 schedule을 찾음
     for (const item of sortedSchedule) {
       if (!item?.time) continue;
       const [startStr, endStr] = item.time.split(" - ");
@@ -90,14 +87,12 @@ const Home = () => {
       if (nowMinutes >= startTotal && nowMinutes < endTotal) {
         foundCurrent = item;
       }
-      // 아직 current를 찾지 못했거나, 이미 찾았는데 nextSchedule이 안 정해졌을 때
+      // 다음 일정
       else if (nowMinutes < startTotal && !foundNext) {
         foundNext = item;
       }
-      // 이미 next를 찾았다면 더 볼 필요 없이 break 가능 (시간 순이라 맨 처음 것이 다음 일정)
-      if (foundNext && foundCurrent) {
-        break;
-      }
+
+      if (foundCurrent && foundNext) break;
     }
 
     setCurrentSchedule(foundCurrent);
@@ -105,114 +100,116 @@ const Home = () => {
   }, [currentTime, weekSchedule]);
 
   return (
-    <div className={styles.container}>
-      {/* 좌측 네비게이션 바 */}
+    <div className={styles.homeContainer}>
+      {/* 좌측 사이드바 (그대로 유지) */}
       <aside className={styles.sidebar}>
-        <div className={styles.logo}>ALL HERE</div>
-        <nav className={styles.nav}>
-          <div className={styles.section}>
-            <h3>개인용</h3>
-            <ul>
-              <li>
-                <Link to="/things-to-do">Things to do</Link>
-              </li>
-              <li>
-                <Link to="/all-about-exam">All about exam</Link>
-              </li>
-              <li className={styles.subItem}>과제1</li>
-              <li className={styles.subItem}>과제2</li>
-              <li className={styles.subItem}>과제3</li>
-            </ul>
+        <div className={styles.allHere}>ALL HERE</div>
+        <div className={styles.sidebarMenu}>
+          <div className={styles.menuHeader}>개인용</div>
+          {/* ------ Things to do 클릭 시 /things-to-do로 이동 ------ */}
+          <div className={styles.menuItem}>
+            <Link to="/things-to-do" style={{ color: "#fff", textDecoration: "none" }}>
+              Things to do
+            </Link>
           </div>
-          <div className={styles.section}>
-            <h3>팀플용</h3>
-            <ul>
-              <li>프로젝트 1</li>
-              <li className={styles.subItem}>역할 분담</li>
-              <li className={styles.subItem}>회의</li>
-              <li className={styles.subItem}>문서</li>
-              <li>프로젝트 2</li>
-            </ul>
+          {/* ------ All about exam 클릭 시 /all-about-exam로 이동 ------ */}
+          <div className={styles.menuItem}>
+            <Link to="/all-about-exam" style={{ color: "#fff", textDecoration: "none" }}>
+              All about exam
+            </Link>
           </div>
-        </nav>
-        <footer className={styles.footer}>
-          <div>계정</div>
-          <div>설정</div>
-        </footer>
+          <div className={styles.menuItem2}>과목 1</div>
+          <div className={styles.menuItem2}>과목 2</div>
+          <div className={styles.menuItem2}>과목 3</div>
+
+        </div>
       </aside>
 
-      {/* 메인 콘텐츠 영역 */}
-      <main className={styles.mainContent}>
-        <header className={styles.navbar}>
-          <Link to="/home">MAIN</Link>
-          <Link to="/personal">개인용</Link>
-          <Link to="/team">팀플용</Link>
-        </header>
+      {/* 오른쪽 메인 컨테이너 */}
+      <div className={styles.mainContainer}>
+        {/* ---- 상단 네비게이션 바 (ThingsToDo.jsx와 동일) ---- */}
+        <div className={styles.navbar}>
+          <span className={styles.navLink}>
+            <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
+              MAIN
+            </Link>
+          </span>
+          <span className={styles.navLinkNow}>개인용</span>
+          <span className={styles.navLink}>팀플용</span>
+        </div>
 
-        <div className={styles.welcome}>
+        {/* 환영 메시지 */}
+        <div style={{ marginLeft: "70px", fontSize: "1.2rem", marginBottom: "20px" }}>
           Welcome {nickname ? `${nickname}!` : "USER!"}
         </div>
 
-        {/* 일정 테이블 */}
-        <div className={styles.scheduleContainer}>
-          <table className={styles.scheduleTable}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>월</th>
-                <th>화</th>
-                <th>수</th>
-                <th>목</th>
-                <th>금</th>
-                <th>토</th>
-                <th>일</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({ length: 17 }, (_, i) => (
-                <tr key={i}>
-                  <td>{`${7 + i}:00~${8 + i}:00`}</td>
-                  {Array.from({ length: 7 }, (_, j) => (
-                    <td key={j}>
-                      {(weekSchedule[j] || [])
-                        .filter((item) => {
-                          if (!item?.time) return false;
-                          const [start] = item.time.split(" - ");
-                          return parseInt(start.split(":")[0], 10) === 7 + i;
-                        })
-                        .map((item) => item.description)
-                        .join(", ")}
-                    </td>
-                  ))}
+        {/* 메인 콘텐츠 영역 */}
+        <div className={styles.content}>
+          {/* 주간 일정 (테이블) */}
+          <div className={styles.calendarContainer}>
+            <h2>이번 주 일정</h2>
+            <table className={styles.scheduleTable}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>월</th>
+                  <th>화</th>
+                  <th>수</th>
+                  <th>목</th>
+                  <th>금</th>
+                  <th>토</th>
+                  <th>일</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* 과제 To-Do-List (오늘 날짜 기준 schedule[].tasks 표시) */}
-        <div className={styles.toDoList}>
-          <h3>TO-DO</h3>
-          <ul>
-            {tasksDueSoon.map((task, index) => (
-              <li key={index}>{task}</li>
-            ))}
-          </ul>
-        </div>
-
-        {/* 오늘의 일정 */}
-        <div className={styles.todaySchedule}>
-          <h3>오늘의 일정</h3>
-          <div className={styles.dateTime}>
-            <p>{currentTime.toLocaleDateString()}</p>
-            <p>{currentTime.toLocaleTimeString()}</p>
+              </thead>
+              <tbody>
+                {Array.from({ length: 17 }, (_, i) => (
+                  <tr key={i}>
+                    <td>{`${7 + i}:00 ~ ${8 + i}:00`}</td>
+                    {Array.from({ length: 7 }, (_, j) => (
+                      <td key={j}>
+                        {(weekSchedule[j] || [])
+                          .filter((item) => {
+                            if (!item?.time) return false;
+                            const [start] = item.time.split(" - ");
+                            return parseInt(start.split(":")[0], 10) === 7 + i;
+                          })
+                          .map((item) => item.description)
+                          .join(", ")}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className={styles.scheduleDetails}>
-            <p>현재 일정: {currentSchedule?.description || "없음"}</p>
-            <p>다음 일정: {nextSchedule?.description || "없음"}</p>
+
+          {/* 우측 영역: 오늘의 일정 / TO-DO */}
+          <div className={styles.taskContainer}>
+            {/* 오늘 일정 */}
+            <div className={styles.todaySchedule}>
+              <h3 className={styles.sectionTitle}>오늘의 일정</h3>
+              <p>{currentTime.toLocaleDateString()}</p>
+              <p>{currentTime.toLocaleTimeString()}</p>
+              <p>현재 일정: {currentSchedule?.description || "없음"}</p>
+              <p>다음 일정: {nextSchedule?.description || "없음"}</p>
+            </div>
+
+            {/* 오늘까지가 마감기한인 것 (TO-DO) */}
+            <div className={styles.dueTasks}>
+              <h3 className={styles.sectionTitle}>오늘의 TO-DO</h3>
+              <ul>
+                {tasksDueSoon.length > 0 ? (
+                  tasksDueSoon.map((task, index) => (
+                    <li key={index}>{task}</li>
+                  ))
+                ) : (
+                  <li>등록된 할 일이 없습니다.</li>
+                )}
+              </ul>
+            </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

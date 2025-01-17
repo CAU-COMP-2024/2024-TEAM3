@@ -15,27 +15,21 @@ const ThingsToDo = () => {
 
   // 오늘의 일정 및 할 일 데이터 로드
   useEffect(() => {
-    // ───────────────────────────────────────────
-    // 원래는 localStorage.getItem(formattedDate)를 썼지만,
-    // 이제는 "schedule" 키에서 전체 스케줄을 불러온 뒤,
-    // [formattedDate]에 해당하는 데이터를 꺼내옵니다.
-    // ───────────────────────────────────────────
+    // "schedule" 키에서 전체 스케줄을 불러오고,
+    // 현재 날짜(formattedDate)에 해당하는 일정/할 일을 꺼냅니다.
     const allSchedules = JSON.parse(localStorage.getItem("schedule")) || {};
     const savedData = allSchedules[formattedDate] || {
       schedule: [],
       tasks: [],
     };
 
-    // savedData.schedule 은 [{ time: "7:00 - 8:00", description: "..." }, ...] 형태
-    // 비어 있는(description가 없거나 "") 일정 제거
+    // schedule 배열이 [{ time: "7:00 - 8:00", description: "..." }, ...] 형태라고 가정
+    // description이 비어 있으면 제외
     const formattedSchedule = (savedData.schedule || []).filter(
       (item) => item.description
     );
 
-    // ───────────────────────────────────────
-    // "같은 내용의 일정"을 시간대 연속으로 합치는 로직
-    // 기존 코드를 조금 수정하여, item.time 그대로 사용
-    // ───────────────────────────────────────
+    // 같은 내용(description)이 연속된 시간대에 걸쳐 있으면 병합
     const mergedSchedule = [];
     formattedSchedule.forEach((item) => {
       if (
@@ -90,8 +84,8 @@ const ThingsToDo = () => {
     const firstDayOfMonth = new Date(year, month, 1);
     const lastDayOfMonth = new Date(year, month + 1, 0);
 
-    const firstDay = firstDayOfMonth.getDay();
-    const daysInMonth = lastDayOfMonth.getDate();
+    const firstDay = firstDayOfMonth.getDay(); // 이번 달 1일의 요일
+    const daysInMonth = lastDayOfMonth.getDate(); // 이번 달 총 일수
 
     const calendar = [];
     let currentDay = 1;
@@ -99,11 +93,15 @@ const ThingsToDo = () => {
     for (let week = 0; week < 6; week++) {
       const weekRow = [];
       for (let day = 0; day < 7; day++) {
+        // 첫 주에서 firstDay 이전이면 빈 칸
         if (week === 0 && day < firstDay) {
           weekRow.push("");
-        } else if (currentDay > daysInMonth) {
+        }
+        // 이번 달 일수를 초과하면 빈 칸
+        else if (currentDay > daysInMonth) {
           weekRow.push("");
         } else {
+          // 실제 날짜(1 ~ daysInMonth)
           weekRow.push(currentDay++);
         }
       }
@@ -118,98 +116,121 @@ const ThingsToDo = () => {
 
   return (
     <div className={styles.thingsToDo}>
-      <div className={styles.allHere}>ALL HERE</div>
-      <div className={styles.mainContainer}>
-        <span className={styles.main}>
-          <Link to="/home">MAIN</Link> {/* 추가된 링크 */}
-        </span>
-        <span className={styles.span}>개인용</span>
-        <span className={styles.main}>팀플용</span>
-      </div>
+      {/* 왼쪽 사이드바 */}
+      <div className={styles.sidebar}>
+        <div className={styles.allHere}>ALL HERE</div>
+        <div className={styles.sidebarMenu}>
+          <div className={styles.menuHeader}>개인용</div>
+          <div className={styles.menuItem}>Things to do</div>
+          <div className={styles.menuItem}> <Link to="/all-about-exam" style={{ color: "#fff", textDecoration: "none" }}>
+              All about exam
+            </Link></div>
+          <div className={styles.menuItem2}>과목 1</div>
+          <div className={styles.menuItem2}>과목 2</div>
+          <div className={styles.menuItem2}>과목 3</div>
 
-      {/* 달력 추가 */}
-      <div className={styles.thingsToDoChild8}>
-        <div className={styles.calendarHeader}>
-          <button onClick={goToPreviousMonth} className={styles.arrowButton}>
-            {"<"}
-          </button>
-          <h2>
-            {currentDate.toLocaleString("default", {
-              month: "long",
-              year: "numeric",
-            })}
-          </h2>
-          <button onClick={goToNextMonth} className={styles.arrowButton}>
-            {">"}
-          </button>
         </div>
-        <table>
-          <thead>
-            <tr>
-              {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
-                <th key={day}>{day}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {calendar.map((week, i) => (
-              <tr key={i}>
-                {week.map((day, j) => (
-                  <td
-                    key={j}
-                    className={day ? styles.activeDay : styles.inactiveDay}
-                    onClick={() =>
-                      day &&
-                      navigate(
-                        `/schedule?date=${currentDate.getFullYear()}-${(
-                          currentDate.getMonth() + 1
-                        )
-                          .toString()
-                          .padStart(2, "0")}-${day
-                          .toString()
-                          .padStart(2, "0")}`
-                      )
-                    }
-                  >
-                    {day}
-                  </td>
+      </div>
+
+      {/* 오른쪽 메인 컨테이너 */}
+      <div className={styles.mainContainer}>
+        {/* 상단 네비게이션 바 */}
+        <div className={styles.navbar}>
+          <span className={styles.navLink}>
+            <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
+              MAIN
+            </Link>
+          </span>
+          <span className={styles.navLinkNow}>개인용</span>
+          <span className={styles.navLink}>팀플용</span>
+        </div>
+
+        {/* 메인 콘텐츠 영역 (달력 + 일정/할일) */}
+        <div className={styles.content}>
+          {/* 달력 영역 */}
+          <div className={styles.calendarContainer}>
+            <div className={styles.calendarHeader}>
+              <button onClick={goToPreviousMonth} className={styles.arrowButton}>
+                {"<"}
+              </button>
+              <h2>
+                {currentDate.toLocaleString("default", {
+                  month: "long",
+                  year: "numeric",
+                })}
+              </h2>
+              <button onClick={goToNextMonth} className={styles.arrowButton}>
+                {">"}
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  {["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map((day) => (
+                    <th key={day}>{day}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {calendar.map((week, i) => (
+                  <tr key={i}>
+                    {week.map((day, j) => (
+                      <td
+                        key={j}
+                        className={day ? styles.activeDay : styles.inactiveDay}
+                        onClick={() =>
+                          day &&
+                          navigate(
+                            `/schedule?date=${currentDate.getFullYear()}-${(
+                              currentDate.getMonth() + 1
+                            )
+                              .toString()
+                              .padStart(2, "0")}-${day.toString().padStart(2, "0")}`
+                          )
+                        }
+                      >
+                        {day}
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
 
-      {/* 오늘의 일정 */}
-      <div className={styles.todaySchedule}>
-        <h3 className={styles.sectionTitle}>오늘의 일정</h3>
-        <ul>
-          {todaySchedule.length > 0 ? (
-            todaySchedule.map((item, index) => (
-              <li key={index} className={styles.scheduleItem}>
-                {item.time} - {item.description}
-              </li>
-            ))
-          ) : (
-            <li>등록된 일정이 없습니다.</li>
-          )}
-        </ul>
-      </div>
+          {/* 우측 일정/마감기한 영역 */}
+          <div className={styles.taskContainer}>
+            <div className={styles.todaySchedule}>
+              <h3 className={styles.sectionTitle}>오늘의 일정</h3>
+              <ul>
+                {todaySchedule.length > 0 ? (
+                  todaySchedule.map((item, index) => (
+                    <li key={index} className={styles.scheduleItem}>
+                      {item.time} - {item.description}
+                    </li>
+                  ))
+                ) : (
+                  <li>등록된 일정이 없습니다.</li>
+                )}
+              </ul>
+            </div>
 
-      {/* 오늘까지가 마감기한인 것 */}
-      <div className={styles.dueTasks}>
-        <h3 className={styles.sectionTitle}>오늘까지가 마감기한인 것</h3>
-        <ul>
-          {todayTasks.length > 0 ? (
-            todayTasks.map((task, index) => (
-              <li key={index} className={styles.taskItem}>
-                {task}
-              </li>
-            ))
-          ) : (
-            <li>등록된 할 일이 없습니다.</li>
-          )}
-        </ul>
+            <div className={styles.dueTasks}>
+              <h3 className={styles.sectionTitle}>오늘까지가 마감기한인 것</h3>
+              <ul>
+                {todayTasks.length > 0 ? (
+                  todayTasks.map((task, index) => (
+                    <li key={index} className={styles.taskItem}>
+                      {task}
+                    </li>
+                  ))
+                ) : (
+                  <li>등록된 할 일이 없습니다.</li>
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

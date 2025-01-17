@@ -28,19 +28,13 @@ const AllAboutExam = () => {
       <div className={styles.allHere}>ALL HERE</div>
       <div className={styles.div}>오리어</div>
       <div className={styles.div1}>개인용</div>
-      <div className={styles.div2}>팀플용</div>
+      
       <div className={styles.thingsToDo}>Things to do</div>
       <div className={styles.thingsToDo}>Things to do</div>
-      <div className={styles.div3}>프로젝트 1</div>
-      <div className={styles.div4}>프로젝트 2</div>
-      <div className={styles.div5}>계정</div>
-      <div className={styles.div6}>설정</div>
+      
       <div className={styles.allAboutExam1}>All about exam</div>
       <div className={styles.div7}>과목 1</div>
-      <div className={styles.div8}>역할 분담</div>
-      <div className={styles.div9}>{`일정 `}</div>
-      <div className={styles.div10}>회의</div>
-      <div className={styles.div11}>문서</div>
+    
       <div className={styles.div12}>과목 2</div>
       <div className={styles.div13}>과목 3</div>
       <div className={styles.lineDiv} />

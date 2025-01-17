@@ -1,174 +1,247 @@
-/* 전체 컨테이너 */
-.container {
+/* -----------------------------------------
+   1) 페이지 최상위 컨테이너
+   ----------------------------------------- */
+   .homeContainer {
     display: flex;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    height: 100vh; 
+    background-color: var(--color-lightskyblue);
   }
-  .scheduleTable td,
-.scheduleTable th {
-  font-size: 0.8rem; /* 글자 크기 작게 조정 */
-  padding: 5px; /* 셀 간격 줄임 */
-}
-
-  /* 좌측 네비게이션 바 */
+  
+  /* -----------------------------------------
+     2) 좌측 사이드바 (고정)
+     ----------------------------------------- */
   .sidebar {
     width: 250px;
-    background-color: #e6f0ff;
-    color: #333;
+    background-color: #8cb7e5;
+    padding: 20px;
+    color: white;
+  
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+  
+  /* 사이드바 상단 로고 */
+  .allHere {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    margin-left: 40px;
+    margin-top: 50px;
+  }
+  
+  .sidebarMenu {
+    margin-top: 20px;
+  }
+  
+  .menuHeader {
+    font-weight: bold;
+    margin-top: 20px;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 30px; 
+  }
+  
+  /* 일반 메뉴 아이템 */
+  .menuItem {
+    margin: 10px 0;
+    cursor: pointer;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    padding-left: 80px; 
+  }
+  
+  .menuItem:hover {
+    background-color: #A8CAEC;
+  }
+  
+  /* 작은 메뉴 아이템 */
+  .menuItem2 {
+    margin: 10px 0;
+    cursor: pointer;
+    color: #FFF;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    padding-left: 110px; 
+  }
+  
+  .menuItem2:hover {
+    background-color: #A8CAEC;
+  }
+  
+  /* -----------------------------------------
+     3) 우측 메인 컨테이너
+     ----------------------------------------- */
+  .mainContainer {
+    flex: 1;
+    padding: 20px;
+    margin-left: 300px;
+    background-color: #F8FAFC;
+    border-radius: 70px 0 0 70px;
+  }
+  
+  /* -----------------------------------------
+     4) 상단 네비게이션 바
+     ----------------------------------------- */
+  .navbar {
+    display: flex;
+    justify-content: left;
+    margin-left: 70px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+  
+  .navLink {
+    margin: 0 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #435364;
+    font-family: Pretendard;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 300; 
+    line-height: normal;
+  }
+  
+  .navLink:hover {
+    transform: scale(1.05);
+  }
+  
+  .navLinkNow {
+    margin: 0 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #435364;
+    font-family: Pretendard;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .navLinkNow:hover {
+    transform: scale(1.05);
+  }
+  
+  /* -----------------------------------------
+     5) 메인 컨텐츠 내부 레이아웃
+     ----------------------------------------- */
+  .content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* -----------------------------------------
+     6) 달력(또는 일정표) 컨테이너
+     ----------------------------------------- */
+  .calendarContainer {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+    width: 700px;
+    height: 900px;
+    flex-shrink: 0;
+    margin-left: 60px;
+  }
+  
+  /* -----------------------------------------
+     7) 일정/할일 목록 컨테이너
+     ----------------------------------------- */
+  .taskContainer {
+    flex: 2;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 30px; /* 좌우 패딩 */
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    gap: 20px;
   }
   
-  .logo {
+  /* 오늘 일정 카드, 마감기한 카드 */
+  .todaySchedule,
+  .dueTasks {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 카드 안에 들어가는 소제목 등 */
+  .sectionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* 일정 아이템 */
+  .scheduleItem {
+    margin: 5px 0;
+  }
+  
+  /* (옵션) 할일 아이템 */
+  .taskItem {
+    margin: 5px 0;
+  }
+  
+  /* -----------------------------------------
+     8) 페이지 상단 헤더 (옵션)
+     ----------------------------------------- */
+  .pageHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px 20px;
+  
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    margin-top: 0;
+    z-index: 100;
+  }
+  
+  .pageHeader h1 {
     font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 20px; /* 로고 아래 간격 */
-    color: #007bff;
-  }
-  
-  .nav {
-    flex: 1;
-  }
-  
-  .section {
-    margin-bottom: 30px; /* 섹션 간 간격 */
-  }
-  
-  .section h3 {
-    font-size: 1.4rem; /* 제목 크기 */
-    margin-bottom: 10px; /* 제목과 하위 항목 간 간격 */
-    color: #0056b3;
-    margin-left: 10px; /* 제목 들여쓰기 */
-  }
-  
-  .section ul {
-    list-style: none;
-    padding: 0;
+    color: #333;
     margin: 0;
   }
   
-  .section ul li {
-    font-size: 1.1rem; /* 글씨 크기 */
-    margin-bottom: 8px; /* 항목 간 간격 */
-    margin-left: 20px; /* 기본 들여쓰기 */
-    cursor: pointer;
-  }
-  
-  /* 하위 항목 들여쓰기 */
-  .section ul li.subItem {
-    margin-left: 40px; /* 하위 항목 추가 들여쓰기 */
-  }
-  
-  .section ul li:hover {
-    color: #007bff;
-  }
-  
-  /* 하단 영역 */
-  .footer {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+  .pageHeader p {
     font-size: 1rem;
+    color: #555;
+    margin: 5px 0 0 0;
   }
   
-  /* 메인 콘텐츠 영역 */
-  .mainContent {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    padding: 20px;
+  /* --- 추가: 주간일정 테이블 구분선(가로 + 세로) --- */
+  .scheduleTable {
+    width: 100%;
+    border-collapse: collapse;
   }
   
-  /* 상단 네비게이션 바 */
-  .navbar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #f9f9f9;
-    padding: 15px 0;
+  /* 모든 행 하단에 1px 구분선 */
+  .scheduleTable tr {
     border-bottom: 1px solid #ddd;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
   }
   
-  .navbar span {
-    cursor: pointer;
+  /* 마지막 행은 제외 */
+  .scheduleTable tr:last-child {
+    border-bottom: none;
   }
   
-  .navbar span:hover {
-    color: #007bff;
+  /* 모든 열(첫 번째 열 제외)에 세로선 */
+  .scheduleTable td + td {
+    border-left: 1px solid #ddd;
   }
-  /* 일주일 일정표 컨테이너 */
-.scheduleContainer {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  max-width: 50%; /* 테이블 전체 너비 제한 */
-  max-height: calc(100vh - 150px); /* 계정-설정 부분 위로 스크롤 가능하게 높이 제한 */
-  overflow-y: auto; /* 세로 스크롤 활성화 */
-}
-
-/* 테이블 스타일 */
-.scheduleTable {
-  width: 100%; /* 테이블 전체 너비 유지 */
-  border-collapse: collapse;
-  text-align: center;
-  table-layout: fixed; /* 열 크기를 고정 */
-}
-
-.scheduleTable th,
-.scheduleTable td {
-  border: 1px solid #ddd;
-  padding: 8px; /* 셀 간격 */
-}
-
-.scheduleTable th {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
-}
-
-.scheduleTable td {
-  background-color: #fff;
-  color: #333;
-}
-
-.scheduleTable td:first-child,
-.scheduleTable th:first-child {
-  width: 80px; /* 1열(시간) 너비를 줄임 */
-  font-weight: bold;
-  background-color: #e6f0ff;
-  font-size: 0.9rem;
-}
-
-.scheduleTable td:not(:first-child),
-.scheduleTable th:not(:first-child) {
-  width: calc((100% - 80px) / 7); /* 나머지 열의 너비를 동일하게 7로 나눔 */
-}
-
-/* 행 높이 조정 */
-.scheduleTable tr {
-  height: 100px; /* 행 높이를 두 배로 늘림 */
-}
-
-/* 스크롤바 스타일 */
-.scheduleContainer::-webkit-scrollbar {
-  width: 8px; /* 스크롤바 너비 */
-}
-
-.scheduleContainer::-webkit-scrollbar-thumb {
-  background-color: #007bff; /* 스크롤바 색상 */
-  border-radius: 10px;
-}
-
-.scheduleContainer::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
+  
